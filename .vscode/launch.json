@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Therapeutic Activity",
+      "request": "launch",
+      "localRoot": "${workspaceFolder}/tea-care-bff-ms-therapeutic-activity",
+      "restart": true,
+      "runtimeArgs": ["run-script", "debug"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node",
+      "outputCapture": "std"
+    },
+    {
+      "name": "Launch Config",
+      "request": "launch",
+      "localRoot": "${workspaceFolder}/tea-care-bff-ms-config",
+      "restart": true,
+      "runtimeArgs": ["run-script", "debug"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node",
+      "outputCapture": "std"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  //Formatar automaticamente
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // Configura tamanho e família da fonte
+  "editor.fontSize": 13,
+  "editor.lineHeight": 20,
+  "editor.fontLigatures": true,
+  // Aplica linhas verticais para lembrar de quebrar linha em códigos muito grandes
+  "editor.rulers": [80, 120],
+  "editor.tabSize": 2, // Aplica um sinal visual na esquerda da linha selecionada
+  "editor.renderLineHighlight": "gutter", //Arvoré de Pastas (caminho do arquivo)
+  "breadcrumbs.enabled": true,
+  // Define o tema dos ícones na sidebar
+  "workbench.iconTheme": "vscode-icons",
+  //Desabilita o Minimap de código do lado direito
+  "editor.minimap.enabled": false, // Fonte do terminal integrado ao VSC
+  "terminal.integrated.fontSize": 12,
+  "window.zoomLevel": 0,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "vsicons.dontShowNewVersionMessage": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "java.configuration.checkProjectSettingsExclusions": false,
+  "git.ignoreMissingGitWarning": true,
+  "editor.find.loop": false
+}

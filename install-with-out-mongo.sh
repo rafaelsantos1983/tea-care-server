@@ -1,0 +1,2 @@
+docker tea-care-auth-ws:latest tea-care-report-ws:latest tea-care-dashboard-ws:latest tea-care-therapeutic-activity-ws:latest tea-care-config-ws:latest -f && & 
+sudo docker-compose -f docker-compose.local.yml up -d

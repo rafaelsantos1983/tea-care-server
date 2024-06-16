@@ -1,0 +1,5 @@
+{
+    "bad-request": {
+        "resource-not-found":"Resource not found!"
+    }
+}
