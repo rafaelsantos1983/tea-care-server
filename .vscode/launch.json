@@ -22,6 +22,17 @@
       "skipFiles": ["<node_internals>/**"],
       "type": "pwa-node",
       "outputCapture": "std"
+    },
+    {
+      "name": "Launch Auth",
+      "request": "launch",
+      "localRoot": "${workspaceFolder}/tea-care-bff-ms-auth",
+      "restart": true,
+      "runtimeArgs": ["run-script", "debug"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node",
+      "outputCapture": "std"
     }
   ]
 }

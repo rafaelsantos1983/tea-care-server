@@ -1,6 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { mongoWrapper, validateRequest } from '@teacare/tea-care-bfb-ms-common';
-import { UserSchema, UserDoc } from '../../models/user';
+import {
+  mongoWrapper,
+  validateRequest,
+  UserSchema,
+  UserDoc,
+} from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
 

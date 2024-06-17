@@ -4,10 +4,11 @@ import {
   sanitizeString,
   validateRequest,
   createDate,
+  UserSchema,
+  UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 import express, { NextFunction, Request, Response } from 'express';
 import sanitizeHtml from 'sanitize-html';
-import { UserDoc, UserSchema } from '../../models/user';
 
 const router = express.Router();
 

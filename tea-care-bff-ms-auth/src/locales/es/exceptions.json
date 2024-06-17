@@ -1,0 +1,20 @@
+{
+  "usuario": {
+    "nombre": {
+      "requiredField": "El campo nombre es un campo obligatorio",
+      "maxLength": "El campo nombre debe tener un máximo de 100 caracteres."
+    },
+    "email": {
+      "requiredField": "El campo email es un campo obligatorio",
+      "maxLength": "El campo email debe tener un máximo de 100 caracteres."
+    },
+    "password": {
+      "requiredField": "El campo contraseña es un campo obligatorio",
+      "maxLength": "El campo de contraseña debe tener un máximo de 100 caracteres."
+    },
+    "confirmPassword": {
+      "requiredField": "El campo de confirmación de contraseña es un campo obligatorio",
+      "maxLength": "El campo de confirmación de contraseña debe tener un máximo de 100 caracteres."
+    }
+  }
+}

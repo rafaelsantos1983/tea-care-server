@@ -1,3 +1,4 @@
+import { logger } from '@teacare/tea-care-bfb-ms-common';
 import express from 'express';
 
 const router = express.Router();
@@ -7,6 +8,7 @@ const router = express.Router();
  */
 
 router.get('/api/auth/liveness', (req, res) => {
+  logger.debug('[auth] liveness');
   res.send('[auth] liveness');
 });
 

@@ -1,0 +1,20 @@
+{
+  "user": {
+    "name": {
+      "requiredField": "The name field is a required field.",
+      "maxLength": "The name field must have a maximum of 100 characters."
+    },
+    "email": {
+      "requiredField": "The email field is a required field.",
+      "maxLength": "The email field must have a maximum of 100 characters."
+    },
+    "password": {
+      "requiredField": "The password field is a required field.",
+      "maxLength": "The password field must have a maximum of 100 characters."
+    },
+    "confirmPassword": {
+      "requiredField": "The password confirmation field is a required field.",
+      "maxLength": "The password confirmation field must have a maximum of 100 characters."
+    }
+  }
+}

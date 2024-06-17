@@ -5,8 +5,9 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
+  UserSchema,
+  UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
-import { UserDoc, UserSchema } from '../../models/user';
 
 const router = express.Router();
 

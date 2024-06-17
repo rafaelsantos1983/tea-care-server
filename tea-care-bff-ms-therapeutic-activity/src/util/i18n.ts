@@ -3,7 +3,6 @@ import i18nextMiddleware from 'i18next-http-middleware';
 import i18nextBackend from 'i18next-fs-backend';
 import { readdirSync } from 'fs';
 import { join } from 'path';
-
 import { logger, tokenLanguageDetector } from '@teacare/tea-care-bfb-ms-common';
 
 // Configura idioma com base no Token

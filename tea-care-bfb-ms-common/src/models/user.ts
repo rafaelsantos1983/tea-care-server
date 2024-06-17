@@ -3,6 +3,8 @@ import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface UserAttrs {
   name: string;
+  email: string;
+  password: string;
   cpf: string;
   phone: string;
   birthday: Date;
@@ -17,6 +19,8 @@ interface UserModel extends mongoose.Model<UserDoc> {
 export interface UserDoc extends mongoose.Document {
   _id: string;
   name: string;
+  email: string;
+  password: string;
   cpf: string;
   phone: string;
   birthday: Date;
@@ -31,21 +35,32 @@ const UserSchema = new mongoose.Schema(
       required: true,
       description: 'Nome',
     },
-    cpf: {
+    email: {
       type: String,
       required: true,
+      description: 'E-mail',
+    },
+    password: {
+      type: String,
+      required: true,
+      description: 'Senha',
+    },
+    cpf: {
+      type: String,
+      required: false,
       description: 'CPF',
     },
     phone: {
       type: String,
-      required: true,
+      required: false,
       description: 'Telefone',
-      minLength: [10, "Telefone com no minímo 10 dígitos"],
-      maxLength: [11, "Telefone com no máximo 11 dígitos"],
-      match: [/\d{10}/, "O telefone só pode contar números"]
-    },    
+      minLength: [10, 'Telefone com no minímo 10 dígitos'],
+      maxLength: [11, 'Telefone com no máximo 11 dígitos'],
+      match: [/\d{10}/, 'O telefone só pode contar números'],
+    },
     birthday: {
       type: Date,
+      required: false,
       description: 'Data de Nascimento',
     },
     creationDate: {

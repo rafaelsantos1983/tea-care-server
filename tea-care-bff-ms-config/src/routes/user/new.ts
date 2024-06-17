@@ -6,8 +6,9 @@ import { createDate, mongoWrapper } from '@teacare/tea-care-bfb-ms-common';
 import {
   validateRequest,
   BadRequestError,
+  UserSchema,
+  UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
-import { UserSchema, UserDoc } from '../../models/user';
 
 const router = express.Router();
 

@@ -11,8 +11,8 @@ async function readinessController(req: Request, res: Response) {
     code = 200;
   }
 
-  logger.info('[ms-auth:readiness] Readiness: ' + readiness);
-  res.status(code).json('[ms-auth:readiness] readiness: ' + readiness);
+  logger.info(`[ms-auth:readiness] Readiness: ${readiness}`);
+  res.status(code).json(`[ms-auth:readiness] readiness: ${readiness}`);
 }
 
 export { readinessController };

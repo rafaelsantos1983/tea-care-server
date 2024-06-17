@@ -8,7 +8,7 @@ export async function authErrorInterceptor(
 ) {
   if (err.name === 'UnauthorizedError') {
     res.status(err.status).send({ message: err.message });
-    logger.error(`[ms-common:auth-errors] ` + err);
+    logger.error(`[ms-common:auth-errors] ${err}`);
     return;
   }
   next();

@@ -1,16 +1,15 @@
 import { Request, Response } from 'express';
-import { LanguageDetectorInterface, LanguageDetectorInterfaceOptions } from 'i18next-http-middleware';
 
-export class TokenLanguageDetector implements LanguageDetectorInterface {
+export var tokenLanguageDetector = {
+  name: 'TokenLanguageDetector',
 
-  name: string = 'TokenLanguageDetector';
+  lookup: function (req: Request, res: Response, options?: any) {
+    let language = (req as any).user?.language;
 
-  lookup (req: Request, res: Response, options?: LanguageDetectorInterfaceOptions) : string | string[] | undefined {
-    if((req as any)?.user?.language) {
-      return (req as any).user.language;
+    if (language) {
+      return language;
     } else {
-      return 'en';
+      return 'pt-br';
     }
-  };
-
-}
+  },
+};

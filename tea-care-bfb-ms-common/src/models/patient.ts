@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-interface UserAttrs {
+interface PatientAttrs {
   name: string;
   cpf: string;
   phone: string;
@@ -10,11 +10,11 @@ interface UserAttrs {
   updateDate: Date | null;
 }
 
-interface UserModel extends mongoose.Model<UserDoc> {
-  build(attrs: UserAttrs): UserDoc;
+interface PatientModel extends mongoose.Model<PatientDoc> {
+  build(attrs: PatientAttrs): PatientDoc;
 }
 
-export interface UserDoc extends mongoose.Document {
+export interface PatientDoc extends mongoose.Document {
   _id: string;
   name: string;
   cpf: string;
@@ -24,7 +24,7 @@ export interface UserDoc extends mongoose.Document {
   updateDate: Date | null;
 }
 
-const UserSchema = new mongoose.Schema(
+const PatientSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -33,19 +33,20 @@ const UserSchema = new mongoose.Schema(
     },
     cpf: {
       type: String,
-      required: true,
+      required: false,
       description: 'CPF',
     },
     phone: {
       type: String,
-      required: true,
+      required: false,
       description: 'Telefone',
-      minLength: [10, "Telefone com no minímo 10 dígitos"],
-      maxLength: [11, "Telefone com no máximo 11 dígitos"],
-      match: [/\d{10}/, "O telefone só pode contar números"]
-    },    
+      minLength: [10, 'Telefone com no minímo 10 dígitos'],
+      maxLength: [11, 'Telefone com no máximo 11 dígitos'],
+      match: [/\d{10}/, 'O telefone só pode contar números'],
+    },
     birthday: {
       type: Date,
+      required: false,
       description: 'Data de Nascimento',
     },
     creationDate: {
@@ -68,7 +69,7 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.set('versionKey', 'version');
-UserSchema.plugin(updateIfCurrentPlugin);
+PatientSchema.set('versionKey', 'version');
+PatientSchema.plugin(updateIfCurrentPlugin);
 
-export { UserSchema as UserSchema };
+export { PatientSchema as PatientSchema };

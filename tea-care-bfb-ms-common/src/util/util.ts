@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { TenantType } from '../models/tenant-type';
 
 /**
  * Trunca o valor em duas cadas decimais
@@ -120,4 +121,33 @@ export function getUserTenant(req: any): string {
  */
 export function getUserAuth(req: Request): string {
   return (req as any).user?.auth;
+}
+
+/**
+ * Pega o language do usuário na requisição
+ * @param req
+ * @returns
+ */
+export function getUserLanguage(req: Request): string {
+  return (req as any).user?.language;
+}
+
+/**
+ * Retorna a origem
+ * @param req
+ * @returns
+ */
+export function getOrigin(req: any): string {
+  return req.get('origin');
+}
+
+/**
+ * Retorna o Tenant da origem
+ * @param req
+ * @returns
+ */
+export function getTenantByOrigin(req: any): string {
+  let tenant = TenantType.PRAXIS;
+
+  return req.get('origin');
 }

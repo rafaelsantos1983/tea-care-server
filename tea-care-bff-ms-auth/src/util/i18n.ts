@@ -40,7 +40,7 @@ i18n
         escapeValue: false,
       },
     },
-    function (err, t) {
+    function (err: any, t: any) {
       if (err) {
         logger.error(
           `[app-ms-common] Erro ao iniciar o Tradutor. Erro = ${err}`
