@@ -15,6 +15,14 @@
     "confirmPassword": {
       "requiredField": "O campo confirmação da senha é um campo obrigatório.",
       "maxLength": "O campo confirmação da senha deve ter no máximo 100 caracteres."
+    },
+    "phone": {
+      "requiredField": "O campo telefone é um campo obrigatório.",
+      "maxLength": "O campo telefone deve ter no máximo 100 caracteres."
+    },
+    "cpf": {
+      "requiredField": "O campo CPF é um campo obrigatório.",
+      "maxLength": "O campo CPF deve ter no máximo 100 caracteres."
     }
   }
 }

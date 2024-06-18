@@ -15,6 +15,14 @@
     "confirmPassword": {
       "requiredField": "The password confirmation field is a required field.",
       "maxLength": "The password confirmation field must have a maximum of 100 characters."
+    },
+    "phone": {
+      "requiredField": "The phone field is a required field.",
+      "maxLength": "The phone field must have a maximum of 100 characters."
+    },
+    "cpf": {
+      "requiredField": "The CPF field is a required field.",
+      "maxLength": "The CPF field must have a maximum of 100 characters."
     }
   }
 }

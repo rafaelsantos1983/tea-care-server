@@ -1,6 +1,6 @@
 {
-  "usuario": {
-    "nombre": {
+  "user": {
+    "name": {
       "requiredField": "El campo nombre es un campo obligatorio",
       "maxLength": "El campo nombre debe tener un máximo de 100 caracteres."
     },
@@ -15,6 +15,14 @@
     "confirmPassword": {
       "requiredField": "El campo de confirmación de contraseña es un campo obligatorio",
       "maxLength": "El campo de confirmación de contraseña debe tener un máximo de 100 caracteres."
+    },
+    "phone": {
+      "requiredField": "El campo teléfono es un campo obligatorio",
+      "maxLength": "El campo teléfono debe tener un máximo de 100 caracteres."
+    },
+    "cpf": {
+      "requiredField": "El campo CPF es un campo obligatorio",
+      "maxLength": "El campo CPF debe tener un máximo de 100 caracteres."
     }
   }
 }
