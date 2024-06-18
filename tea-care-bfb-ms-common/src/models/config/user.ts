@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface UserAttrs {
@@ -7,7 +7,7 @@ interface UserAttrs {
   password: string;
   cpf: string;
   phone: string;
-  birthday: Date;
+  propfiles: [];
   creationDate: Date | null;
   updateDate: Date | null;
 }
@@ -23,7 +23,11 @@ export interface UserDoc extends mongoose.Document {
   password: string;
   cpf: string;
   phone: string;
-  birthday: Date;
+  propfiles: {
+    id: string;
+    name: string;
+    symbol: string;
+  };
   creationDate: Date | null;
   updateDate: Date | null;
 }
@@ -58,10 +62,9 @@ const UserSchema = new mongoose.Schema(
       maxLength: [11, 'Telefone com no máximo 11 dígitos'],
       match: [/\d{10}/, 'O telefone só pode contar números'],
     },
-    birthday: {
-      type: Date,
-      required: false,
-      description: 'Data de Nascimento',
+    profiles: {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
     },
     creationDate: {
       type: Date,

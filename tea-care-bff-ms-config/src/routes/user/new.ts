@@ -1,7 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
-import { createDate, mongoWrapper } from '@teacare/tea-care-bfb-ms-common';
+import {
+  createDate,
+  getTenantByOrigin,
+  mongoWrapper,
+  sanitizeArray,
+} from '@teacare/tea-care-bfb-ms-common';
 
 import {
   validateRequest,
@@ -9,6 +14,7 @@ import {
   UserSchema,
   UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
+import { userValidations } from '../../middlewares/userValidations';
 
 const router = express.Router();
 
@@ -17,15 +23,16 @@ const router = express.Router();
  */
 router.put(
   '/api/config/users',
+  userValidations(),
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
       const phone = sanitizeHtml(req.body.phone) as string;
-      const birthday = sanitizeHtml(req.body.birthday) as string;
+      const profiles = sanitizeArray(req.body.profiles);
 
-      const tenant: string = 'upe';
+      const tenant: string = getTenantByOrigin(req);
 
       const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
@@ -46,7 +53,6 @@ router.put(
         name: name,
         cpf: cpf,
         phone: phone,
-        birthday: new Date(birthday),
         creationDate: createDate(),
         updateDate: createDate(),
       });

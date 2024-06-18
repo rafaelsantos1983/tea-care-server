@@ -4,6 +4,7 @@ import {
   validateRequest,
   UserSchema,
   UserDoc,
+  getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -16,7 +17,7 @@ router.get(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const tenant: string = 'upe';
+      const tenant: string = getTenantByOrigin(req);
 
       const User = await mongoWrapper.getModel<UserDoc>(
         tenant,

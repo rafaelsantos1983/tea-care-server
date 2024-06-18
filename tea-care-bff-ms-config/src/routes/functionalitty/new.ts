@@ -10,8 +10,8 @@ import {
 import {
   validateRequest,
   BadRequestError,
-  PatientDoc,
-  PatientSchema,
+  FunctionalittySchema,
+  FunctionalittyDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -20,48 +20,44 @@ const router = express.Router();
  * Criar
  */
 router.put(
-  '/api/therapeutic-activity/patients',
+  '/api/config/functionalittyalitties',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const name = sanitizeHtml(req.body.name) as string;
-      const cpf = sanitizeHtml(req.body.cpf) as string;
-      const phone = sanitizeHtml(req.body.phone) as string;
-      const birthday = sanitizeHtml(req.body.birthday) as string;
+      const symbol = sanitizeHtml(req.body.symbol) as string;
 
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
         tenant,
-        'Patient',
-        PatientSchema
+        'Functionalitty',
+        FunctionalittySchema
       );
 
       // consulta se já existe
-      const hasPatient = await Patient.findOne({
-        cpf: cpf,
+      const hasFunctionalitty = await Functionalitty.findOne({
+        symbol: symbol,
       });
 
-      if (hasPatient) {
-        throw new BadRequestError('Usuário já existe.');
+      if (hasFunctionalitty) {
+        throw new BadRequestError('Funcionalidade já existe.');
       }
 
-      const patient = new Patient({
+      const functionalittyalitty = new Functionalitty({
         name: name,
-        cpf: cpf,
-        phone: phone,
-        birthday: new Date(birthday),
+        symbol: symbol,
         creationDate: createDate(),
         updateDate: createDate(),
       });
 
-      await patient.save();
+      await functionalittyalitty.save();
 
-      res.status(201).json(patient);
+      res.status(201).json(functionalittyalitty);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newPatientRouter };
+export { router as newFunctionalittyRouter };

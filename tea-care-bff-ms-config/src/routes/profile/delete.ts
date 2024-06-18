@@ -1,11 +1,11 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 
 import {
   sanitizeString,
   validateRequest,
   mongoWrapper,
-  UserSchema,
-  UserDoc,
+  ProfileSchema,
+  ProfileDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -15,20 +15,20 @@ const router = express.Router();
  * Remover
  */
 router.delete(
-  '/api/config/users/:userId',
+  '/api/config/profiles/:profileId',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const userId = sanitizeString(req.params.userId) as string;
-      const User = await mongoWrapper.getModel<UserDoc>(
+      const ProfileId = sanitizeString(req.params.ProfileId) as string;
+      const Profile = await mongoWrapper.getModel<ProfileDoc>(
         tenant,
-        'User',
-        UserSchema
+        'Profile',
+        ProfileSchema
       );
-      await User.deleteMany({
-        _id: userId,
+      await Profile.deleteMany({
+        _id: ProfileId,
       }).exec();
 
       res.status(200).json('OK');
@@ -38,4 +38,4 @@ router.delete(
   }
 );
 
-export { router as deleteUserRouter };
+export { router as deleteProfileRouter };

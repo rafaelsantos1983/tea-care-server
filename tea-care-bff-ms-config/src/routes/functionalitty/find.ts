@@ -5,8 +5,8 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  UserSchema,
-  UserDoc,
+  FunctionalittySchema,
+  FunctionalittyDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -16,30 +16,32 @@ const router = express.Router();
  * Consulta pelo Id
  */
 router.get(
-  '/api/config/users/:userId',
+  '/api/config/functionalitties/:functionalittyId',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = sanitizeString(req.params.userId) as string;
+      const functionalittyId = sanitizeString(
+        req.params.functionalittyId
+      ) as string;
       const tenant: string = getTenantByOrigin(req);
-      const User = await mongoWrapper.getModel<UserDoc>(
+      const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
         tenant,
-        'User',
-        UserSchema
+        'Functionalitty',
+        FunctionalittySchema
       );
 
-      let user = await User.findOne({
-        _id: userId,
+      let functionalitty = await Functionalitty.findOne({
+        _id: functionalittyId,
       });
-      if (!user) {
+      if (!functionalitty) {
         throw new NotFoundError();
       }
 
-      res.status(200).json(user);
+      res.status(200).json(functionalitty);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as findUserRouter };
+export { router as findFunctionRouter };

@@ -1,41 +1,37 @@
 import express, { Request, Response, NextFunction } from 'express';
-
 import {
-  sanitizeString,
-  validateRequest,
   mongoWrapper,
-  UserSchema,
-  UserDoc,
+  validateRequest,
+  ProfileSchema,
+  ProfileDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
 
 /**
- * Remover
+ * Listar
  */
-router.delete(
-  '/api/config/users/:userId',
+router.get(
+  '/api/config/profiles',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const userId = sanitizeString(req.params.userId) as string;
-      const User = await mongoWrapper.getModel<UserDoc>(
+      const Profile = await mongoWrapper.getModel<ProfileDoc>(
         tenant,
-        'User',
-        UserSchema
+        'Profile',
+        ProfileSchema
       );
-      await User.deleteMany({
-        _id: userId,
-      }).exec();
 
-      res.status(200).json('OK');
+      const profiles = await Profile.find({});
+
+      res.send(profiles);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as deleteUserRouter };
+export { router as listProfileRouter };

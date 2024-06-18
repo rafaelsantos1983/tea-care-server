@@ -1,12 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
 
 import {
+  getTenantByOrigin,
   mongoWrapper,
   NotFoundError,
   sanitizeString,
   validateRequest,
+  PatientDoc,
+  PatientSchema,
 } from '@teacare/tea-care-bfb-ms-common';
-import { PatientDoc, PatientSchema } from '../../models/patient';
 
 const router = express.Router();
 
@@ -19,7 +21,7 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const PatientId = sanitizeString(req.params.PatientId) as string;
-      const tenant: string = 'upe';
+      const tenant: string = getTenantByOrigin(req);
       const Patient = await mongoWrapper.getModel<PatientDoc>(
         tenant,
         'Patient',

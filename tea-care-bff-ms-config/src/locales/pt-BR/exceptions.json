@@ -1,0 +1,22 @@
+{
+  "profile": {
+    "name": {
+      "requiredField": "O campo nome é um campo obrigatório.",
+      "maxLength": "O campo nome deve ter no máximo 100 caracteres."
+    },
+    "symbol": {
+      "requiredField": "O campo símbolo é um campo obrigatório.",
+      "maxLength": "O campo símbolo deve ter no máximo 100 caracteres."
+    }
+  },
+  "functionalitty": {
+    "name": {
+      "requiredField": "O campo nome é um campo obrigatório.",
+      "maxLength": "O campo nome deve ter no máximo 100 caracteres."
+    },
+    "symbol": {
+      "requiredField": "O campo símbolo é um campo obrigatório.",
+      "maxLength": "O campo símbolo deve ter no máximo 100 caracteres."
+    }
+  }
+}

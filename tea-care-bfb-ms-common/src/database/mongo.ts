@@ -7,8 +7,8 @@ import {
 } from 'mongoose';
 import { TenantType } from '../..';
 import { DatabaseConnectionError } from '../errors/database-connection-error';
-import { ServiceName } from '../models/service-name';
-import { TenantDoc, TenantSchema } from '../models/tenant';
+import { ServiceName } from '../models/tenants/service-name';
+import { TenantDoc, TenantSchema } from '../models/tenants/tenant';
 import { logger } from '../util/logger';
 
 const mongoOptions = {

@@ -4,10 +4,12 @@ import {
   sanitizeString,
   validateRequest,
   createDate,
+  getTenantByOrigin,
+  PatientDoc,
+  PatientSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 import express, { NextFunction, Request, Response } from 'express';
 import sanitizeHtml from 'sanitize-html';
-import { PatientDoc, PatientSchema } from '../../models/patient';
 
 const router = express.Router();
 
@@ -23,7 +25,7 @@ router.post(
 async function updatePatient(req: Request, res: Response, next: NextFunction) {
   try {
     const PatientId = sanitizeString(req.params.PatientId) as string;
-    const tenant: string = 'upe';
+    const tenant: string = getTenantByOrigin(req);
 
     const name = sanitizeHtml(req.body.name);
     const cpf = sanitizeHtml(req.body.cpf);

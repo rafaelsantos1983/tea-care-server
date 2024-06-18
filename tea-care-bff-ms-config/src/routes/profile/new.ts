@@ -10,9 +10,10 @@ import {
 import {
   validateRequest,
   BadRequestError,
-  PatientDoc,
-  PatientSchema,
+  ProfileSchema,
+  ProfileDoc,
 } from '@teacare/tea-care-bfb-ms-common';
+import { profileValidations } from '../../middlewares/profileValidations';
 
 const router = express.Router();
 
@@ -20,48 +21,45 @@ const router = express.Router();
  * Criar
  */
 router.put(
-  '/api/therapeutic-activity/patients',
+  '/api/config/profiles',
+  profileValidations(),
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const name = sanitizeHtml(req.body.name) as string;
-      const cpf = sanitizeHtml(req.body.cpf) as string;
-      const phone = sanitizeHtml(req.body.phone) as string;
-      const birthday = sanitizeHtml(req.body.birthday) as string;
+      const symbol = sanitizeHtml(req.body.symbol) as string;
 
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const Profile = await mongoWrapper.getModel<ProfileDoc>(
         tenant,
-        'Patient',
-        PatientSchema
+        'Profile',
+        ProfileSchema
       );
 
       // consulta se já existe
-      const hasPatient = await Patient.findOne({
-        cpf: cpf,
+      const hasProfile = await Profile.findOne({
+        symbol: symbol,
       });
 
-      if (hasPatient) {
-        throw new BadRequestError('Usuário já existe.');
+      if (hasProfile) {
+        throw new BadRequestError('Funcionalidade já existe.');
       }
 
-      const patient = new Patient({
+      const profilealitty = new Profile({
         name: name,
-        cpf: cpf,
-        phone: phone,
-        birthday: new Date(birthday),
+        symbol: symbol,
         creationDate: createDate(),
         updateDate: createDate(),
       });
 
-      await patient.save();
+      await profilealitty.save();
 
-      res.status(201).json(patient);
+      res.status(201).json(profilealitty);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newPatientRouter };
+export { router as newProfileRouter };

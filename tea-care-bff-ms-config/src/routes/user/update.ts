@@ -6,24 +6,32 @@ import {
   createDate,
   UserSchema,
   UserDoc,
+  getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 import express, { NextFunction, Request, Response } from 'express';
 import sanitizeHtml from 'sanitize-html';
+import { userValidations } from '../../middlewares/userValidations';
 
 const router = express.Router();
 
 /**
  * Atualizar
  */
-router.post('/api/config/users/:userId', validateRequest, updateUser);
+router.post(
+  '/api/config/users/:userId',
+  validateRequest,
+  userValidations(),
+  updateUser
+);
 
 async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
     const userId = sanitizeString(req.params.userId) as string;
-    const tenant: string = 'upe';
+    const tenant: string = getTenantByOrigin(req);
 
     const name = sanitizeHtml(req.body.name);
     const cpf = sanitizeHtml(req.body.cpf);
+    const phone = sanitizeHtml(req.body.phone);
 
     const User = await mongoWrapper.getModel<UserDoc>(
       tenant,
@@ -40,6 +48,7 @@ async function updateUser(req: Request, res: Response, next: NextFunction) {
 
     user.name = name;
     user.cpf = cpf;
+    user.phone = phone;
 
     user.updateDate = createDate();
 

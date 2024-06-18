@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { TenantType } from '../models/tenant-type';
+import { TenantType } from '../models/tenants/tenant-type';
 
 /**
  * Trunca o valor em duas cadas decimais

@@ -4,9 +4,10 @@ import {
   sanitizeString,
   validateRequest,
   mongoWrapper,
+  getTenantByOrigin,
+  PatientDoc,
+  PatientSchema,
 } from '@teacare/tea-care-bfb-ms-common';
-
-import { PatientDoc, PatientSchema } from '../../models/patient';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.delete(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const tenant: string = 'upe';
+      const tenant: string = getTenantByOrigin(req);
 
       const PatientId = sanitizeString(req.params.PatientId) as string;
       const Patient = await mongoWrapper.getModel<PatientDoc>(
