@@ -8,8 +8,6 @@ interface UserAttrs {
   cpf: string;
   phone: string;
   propfiles: [];
-  creationDate: Date | null;
-  updateDate: Date | null;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -23,13 +21,13 @@ export interface UserDoc extends mongoose.Document {
   password: string;
   cpf: string;
   phone: string;
-  propfiles: {
-    id: string;
-    name: string;
-    symbol: string;
-  };
-  creationDate: Date | null;
-  updateDate: Date | null;
+  propfiles: [
+    {
+      id: string;
+      name: string;
+      symbol: string;
+    },
+  ];
 }
 
 const UserSchema = new mongoose.Schema(
@@ -38,11 +36,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       description: 'Nome',
+      index: true,
     },
     email: {
       type: String,
+      lowercase: true,
       required: true,
+      unique: true,
+      match: [/\S+@\S+\.\S+/, 'está inválido.'],
       description: 'E-mail',
+      index: true,
     },
     password: {
       type: String,
@@ -62,18 +65,12 @@ const UserSchema = new mongoose.Schema(
       maxLength: [11, 'Telefone com no máximo 11 dígitos'],
       match: [/\d{10}/, 'O telefone só pode contar números'],
     },
-    profiles: {
-      type: Schema.Types.ObjectId,
-      ref: 'Profile',
-    },
-    creationDate: {
-      type: Date,
-      description: 'Data de Criação',
-    },
-    updateDate: {
-      type: Date,
-      description: 'Data de Atualização',
-    },
+    profiles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+      },
+    ],
   },
   {
     toJSON: {
@@ -83,6 +80,7 @@ const UserSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

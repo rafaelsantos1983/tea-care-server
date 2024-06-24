@@ -2,31 +2,29 @@ import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
 import {
-  createDate,
   getTenantByOrigin,
   mongoWrapper,
+  PatientSchema,
+  PatientDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 
 import {
   validateRequest,
   BadRequestError,
-  PatientDoc,
-  PatientSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
 
 /**
- * Criar
+ * Registro de Paciente
  */
-router.put(
+router.post(
   '/api/therapeutic-activity/patients',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
-      const phone = sanitizeHtml(req.body.phone) as string;
       const birthday = sanitizeHtml(req.body.birthday) as string;
 
       const tenant: string = getTenantByOrigin(req);
@@ -43,25 +41,22 @@ router.put(
       });
 
       if (hasPatient) {
-        throw new BadRequestError('Usuário já existe.');
+        throw new BadRequestError('Paciente já existe.');
       }
 
-      const patient = new Patient({
+      const user = new Patient({
         name: name,
         cpf: cpf,
-        phone: phone,
-        birthday: new Date(birthday),
-        creationDate: createDate(),
-        updateDate: createDate(),
+        birthday: birthday,
       });
 
-      await patient.save();
+      await user.save();
 
-      res.status(201).json(patient);
+      res.status(201).json('Paciente registrado.');
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newPatientRouter };
+export { router as signupRouter };

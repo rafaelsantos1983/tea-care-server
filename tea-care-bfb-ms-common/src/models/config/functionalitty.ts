@@ -4,8 +4,6 @@ import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 interface FunctionalittyAttrs {
   name: string;
   symbol: string;
-  creationDate: Date | null;
-  updateDate: Date | null;
 }
 
 interface FunctionalittyModel extends mongoose.Model<FunctionalittyDoc> {
@@ -16,8 +14,6 @@ export interface FunctionalittyDoc extends mongoose.Document {
   _id: string;
   name: string;
   symbol: string;
-  creationDate: Date | null;
-  updateDate: Date | null;
 }
 
 const FunctionalittySchema = new mongoose.Schema(
@@ -32,14 +28,6 @@ const FunctionalittySchema = new mongoose.Schema(
       required: true,
       description: 'Símbolo da Funcionalidade',
     },
-    creationDate: {
-      type: Date,
-      description: 'Data de Criação',
-    },
-    updateDate: {
-      type: Date,
-      description: 'Data de Atualização',
-    },
   },
   {
     toJSON: {
@@ -49,6 +37,7 @@ const FunctionalittySchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

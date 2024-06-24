@@ -47,8 +47,6 @@ router.put(
       const functionalittyalitty = new Functionalitty({
         name: name,
         symbol: symbol,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await functionalittyalitty.save();
