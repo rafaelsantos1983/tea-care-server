@@ -3,7 +3,6 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  createDate,
   UserSchema,
   UserDoc,
   getTenantByOrigin,
@@ -49,8 +48,6 @@ async function updateUser(req: Request, res: Response, next: NextFunction) {
     user.name = name;
     user.cpf = cpf;
     user.phone = phone;
-
-    user.updateDate = createDate();
 
     await user.save();
 
