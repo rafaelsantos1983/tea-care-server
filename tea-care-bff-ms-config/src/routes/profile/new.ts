@@ -49,8 +49,6 @@ router.put(
       const profilealitty = new Profile({
         name: name,
         symbol: symbol,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await profilealitty.save();

@@ -11,10 +11,10 @@ import {
 import {
   validateRequest,
   BadRequestError,
-  PatientSchema,
-  PatientDoc,
+  UserSchema,
+  UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
-import { patientValidations } from '../../middlewares/patientValidations';
+import { userValidations } from '../../middlewares/userValidations';
 
 const router = express.Router();
 
@@ -22,48 +22,46 @@ const router = express.Router();
  * Criar
  */
 router.put(
-  '/api/config/patients',
-  patientValidations(),
+  '/api/config/users',
+  userValidations(),
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
       const phone = sanitizeHtml(req.body.phone) as string;
-      const patient = sanitizeArray(req.body.patient);
+      const profiles = sanitizeArray(req.body.profiles);
 
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
-        'Patient',
-        PatientSchema
+        'User',
+        UserSchema
       );
 
       // consulta se já existe
-      const hasPatient = await Patient.findOne({
+      const hasUser = await User.findOne({
         cpf: cpf,
       });
 
-      if (hasPatient) {
-        throw new BadRequestError('Paciente já existe.');
+      if (hasUser) {
+        throw new BadRequestError('Usuário já existe.');
       }
 
-      const patients = new Patient({
+      const user = new User({
         name: name,
         cpf: cpf,
         phone: phone,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
-      await patients.save();
+      await user.save();
 
-      res.status(201).json(patients);
+      res.status(201).json(user);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newPatientRouter };
+export { router as newUserRouter };

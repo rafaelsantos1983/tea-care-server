@@ -4,8 +4,8 @@ import {
   sanitizeString,
   validateRequest,
   mongoWrapper,
-  PatientSchema,
-  PatientDoc,
+  UserSchema,
+  UserDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -15,20 +15,20 @@ const router = express.Router();
  * Remover
  */
 router.delete(
-  '/api/config/patients/:patientId',
+  '/api/config/patients/:userId',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const PatientId = sanitizeString(req.params.PatientId) as string;
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const userId = sanitizeString(req.params.userId) as string;
+      const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
-        'Patient',
-        PatientSchema
+        'User',
+        UserSchema
       );
-      await Patient.deleteMany({
-        _id: PatientId,
+      await User.deleteMany({
+        _id: userId,
       }).exec();
 
       res.status(200).json('OK');
@@ -38,4 +38,4 @@ router.delete(
   }
 );
 
-export { router as deletePatientRouter };
+export { router as deleteUserRouter };

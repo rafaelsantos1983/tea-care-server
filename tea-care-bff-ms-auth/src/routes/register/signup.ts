@@ -1,5 +1,5 @@
-import express, { Request, Response, NextFunction } from 'express';
-import sanitizeHtml from 'sanitize-html';
+import express, { Request, Response, NextFunction } from "express";
+import sanitizeHtml from "sanitize-html";
 
 import {
   createDate,
@@ -7,15 +7,15 @@ import {
   mongoWrapper,
   UserSchema,
   UserDoc,
-} from '@teacare/tea-care-bfb-ms-common';
+} from "@teacare/tea-care-bfb-ms-common";
 
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 import {
   validateRequest,
   BadRequestError,
-} from '@teacare/tea-care-bfb-ms-common';
-import { signupValidations } from '../../middlewares/signupValidations';
+} from "@teacare/tea-care-bfb-ms-common";
+import { signupValidations } from "../../middlewares/signupValidations";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ const router = express.Router();
  * Registro de Usuário
  */
 router.post(
-  '/api/signup',
+  "/api/signup",
   signupValidations(),
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -37,13 +37,13 @@ router.post(
 
       const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
-        'User',
-        UserSchema
+        "User",
+        UserSchema,
       );
 
       if (password !== confirmPassword) {
         throw new BadRequestError(
-          'A senha e a confirmação da senha estão diferentes.'
+          "A senha e a confirmação da senha estão diferentes.",
         );
       }
 
@@ -53,7 +53,7 @@ router.post(
       });
 
       if (hasUser) {
-        throw new BadRequestError('Usuário já existe.');
+        throw new BadRequestError("Usuário já existe.");
       }
 
       const salt = await bcrypt.genSalt(12);
@@ -63,17 +63,15 @@ router.post(
         name: name,
         password: passwordHash,
         email: email,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await user.save();
 
-      res.status(201).json('Usuário registrado.');
+      res.status(201).json("Usuário registrado.");
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export { router as signupRouter };

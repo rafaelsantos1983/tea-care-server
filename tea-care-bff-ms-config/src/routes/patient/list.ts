@@ -2,8 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import {
   mongoWrapper,
   validateRequest,
-  PatientSchema,
-  PatientDoc,
+  UserSchema,
+  UserDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -13,25 +13,25 @@ const router = express.Router();
  * Listar
  */
 router.get(
-  '/api/config/patients',
+  '/api/config/users',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
-        'Patient',
-        PatientSchema
+        'User',
+        UserSchema
       );
 
-      const patient = await Patient.find({});
+      const users = await User.find({});
 
-      res.send(Patient);
+      res.send(users);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as listPatientRouter };
+export { router as listUserRouter };

@@ -53,8 +53,6 @@ router.put(
         name: name,
         cpf: cpf,
         phone: phone,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await user.save();
