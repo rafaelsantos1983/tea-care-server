@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
 import {
-  createDate,
   getTenantByOrigin,
   mongoWrapper,
   sanitizeArray,
@@ -29,7 +28,9 @@ router.put(
     try {
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
+      const email = sanitizeHtml(req.body.email) as string;
       const phone = sanitizeHtml(req.body.phone) as string;
+      const type = sanitizeHtml(req.body.type) as string;
       const profiles = sanitizeArray(req.body.profiles);
 
       const tenant: string = getTenantByOrigin(req);
@@ -53,6 +54,8 @@ router.put(
         name: name,
         cpf: cpf,
         phone: phone,
+        email: email,
+        type: type,
       });
 
       await user.save();

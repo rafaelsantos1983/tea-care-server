@@ -1,7 +1,6 @@
 import {
   TenantDoc,
   logger,
-  mongoWrapper,
   createDate,
 } from '@teacare/tea-care-bfb-ms-common';
 import { readFileSync } from 'fs';
@@ -31,7 +30,6 @@ export async function executeScripts(tenants: TenantDoc[]) {
           fileName: migration,
           dateExecuted: createDate(),
         });
-        // tenant.markModified('migrations');
       }
     }
 

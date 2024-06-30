@@ -18,5 +18,17 @@
       "requiredField": "The symbol field is a required field.",
       "maxLength": "The symbol field must have a maximum of 100 characters."
     }
+  },
+  "patient": {
+    "name": {
+      "requiredField": "The name field is a required field.",
+      "maxLength": "The name field must have a maximum of 100 characters."
+    },
+    "cpf": {
+      "requiredField": "The name cpf is a required field."
+    },
+    "birthday": {
+      "requiredField": "The date of birth field is a required field."
+    }
   }
 }

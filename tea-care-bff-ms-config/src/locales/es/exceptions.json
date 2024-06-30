@@ -18,5 +18,17 @@
       "requiredField": "El campo símbolo es un campo obligatorio",
       "maxLength": "El campo símbolo debe tener un máximo de 100 caracteres."
     }
+  },
+  "patient": {
+    "name": {
+      "requiredField": "El campo nombre es un campo obligatorio",
+      "maxLength": "El campo nombre debe tener un máximo de 100 caracteres."
+    },
+    "cpf": {
+      "requiredField": "El campo cpf es un campo obligatorio"
+    },
+    "birthday": {
+      "requiredField": "El campo fecha de nacimiento es un campo obligatorio"
+    }
   }
 }

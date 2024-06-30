@@ -1,4 +1,4 @@
-export enum CareType {
+export enum Occupation {
   //terapia ocupacional
   occupational_therapy = 'occupational_therapy',
 

@@ -12,7 +12,6 @@ import {
   loggerWrite,
 } from '@teacare/tea-care-bfb-ms-common';
 
-import i18next from 'i18next';
 import i18nextMiddleware from 'i18next-http-middleware';
 import { healthcheckRoutes } from './app.constants';
 import { livenessRouter } from './routes/liveness';
@@ -32,24 +31,26 @@ if (process.env.NODE_ENV != 'local') {
 }
 
 // Autenticação com JWT
-app.use(
-  jwt({
-    secret: process.env.JWT_SECRET as string,
-    algorithms: ['HS512'],
-  }).unless({
-    path: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   jwt({
+//     secret: process.env.JWT_SECRET as string,
+//     algorithms: ['HS512'],
+//   }).unless({
+//     path: healthcheckRoutes,
+//   })
+// );
 
 // Middleware para tratar erros na validação do JWT
-app.use(authErrorInterceptor);
-
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(authErrorInterceptor);
 // Middleware de Tradução
-app.use(
-  i18nextMiddleware.handle(i18next, {
-    ignoreRoutes: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   i18nextMiddleware.handle(i18n, {
+//     ignoreRoutes: healthcheckRoutes,
+//   })
+// );
 
 // Rotas abertas
 app.use(livenessRouter);

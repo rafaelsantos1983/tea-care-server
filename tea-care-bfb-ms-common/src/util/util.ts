@@ -151,3 +151,11 @@ export function getTenantByOrigin(req: any): string {
 
   return req.get('origin');
 }
+
+/**
+ * Gerar Senha
+ * @returns
+ */
+export function generatePassword() {
+  return Math.random().toString(36).slice(-10);
+}

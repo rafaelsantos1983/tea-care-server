@@ -48,9 +48,6 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
 
     patient.name = name;
     patient.cpf = cpf;
-    patient.phone = phone;
-
-    patient.updateDate = createDate();
 
     await patient.save();
 

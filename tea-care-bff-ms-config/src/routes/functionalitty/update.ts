@@ -3,7 +3,6 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  createDate,
   FunctionalittySchema,
   FunctionalittyDoc,
   getTenantByOrigin,
@@ -49,8 +48,6 @@ async function updateFunctionalitty(
     }
 
     functionalitty.name = name;
-
-    functionalitty.updateDate = createDate();
 
     await functionalitty.save();
 

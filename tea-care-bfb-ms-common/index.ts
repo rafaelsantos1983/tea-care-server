@@ -14,7 +14,6 @@ export * from './src/middlewares/error-handler';
 export * from './src/middlewares/validate-request';
 export * from './src/middlewares/auth-errors';
 export * from './src/middlewares/language-detector';
-export * from './src/middlewares/acess-control';
 
 export * from './src/util/logger';
 export * from './src/util/util';

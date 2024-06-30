@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { USerType as UserType } from './user-type';
+import { Occupation } from '../care-type';
 
 interface UserAttrs {
   name: string;
@@ -7,6 +9,7 @@ interface UserAttrs {
   password: string;
   cpf: string;
   phone: string;
+  type: UserType;
   propfiles: [];
 }
 
@@ -21,6 +24,8 @@ export interface UserDoc extends mongoose.Document {
   password: string;
   cpf: string;
   phone: string;
+  type: UserType;
+  occupation: Occupation;
   propfiles: [
     {
       id: string;
@@ -54,7 +59,7 @@ const UserSchema = new mongoose.Schema(
     },
     cpf: {
       type: String,
-      required: false,
+      required: true,
       description: 'CPF',
     },
     phone: {
@@ -64,6 +69,18 @@ const UserSchema = new mongoose.Schema(
       minLength: [10, 'Telefone com no minímo 10 dígitos'],
       maxLength: [11, 'Telefone com no máximo 11 dígitos'],
       match: [/\d{10}/, 'O telefone só pode contar números'],
+    },
+    type: {
+      type: String,
+      enum: Object.values(UserType),
+      required: false,
+      description: 'Tipo de usuário: Interno ou Externo',
+    },
+    occupation: {
+      type: String,
+      enum: Object.values(Occupation),
+      required: false,
+      description: 'Profissão',
     },
     profiles: [
       {

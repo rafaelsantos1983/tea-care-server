@@ -1,9 +1,4 @@
-import {
-  TenantDoc,
-  logger,
-  mongoWrapper,
-  createDate,
-} from '@teacare/tea-care-bfb-ms-common';
+import { TenantDoc, logger, createDate } from '@teacare/tea-care-bfb-ms-common';
 import { readFileSync } from 'fs';
 
 export async function executeScripts(tenants: TenantDoc[]) {

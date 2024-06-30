@@ -1,12 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
-import { CareType } from './care-type';
+import { Occupation } from './care-type';
 
 interface CareAttrs {
   name: string;
-  cpf: string;
-  phone: string;
-  date: Date;
+  description: string;
+  professional: any;
+  dateAssessment: Date;
 }
 
 interface CareModel extends mongoose.Model<CareDoc> {
@@ -16,8 +16,7 @@ interface CareModel extends mongoose.Model<CareDoc> {
 export interface CareDoc extends mongoose.Document {
   _id: string;
   description: string;
-  careType: CareType;
-  careProfessional: any;
+  professional: any;
   dateAssessment: Date;
 }
 
@@ -28,13 +27,7 @@ const CareSchema = new mongoose.Schema(
       required: true,
       description: 'Descrição',
     },
-    careType: {
-      type: String,
-      enum: Object.values(CareType),
-      required: true,
-      description: 'Tipo de atendimento',
-    },
-    careProfessional: {
+    professional: {
       type: Schema.Types.ObjectId,
       description: 'Profissional que realizou o atendimento',
       ref: 'User',
