@@ -147,6 +147,9 @@ export function getOrigin(req: any): string {
  * @returns
  */
 export function getTenantByOrigin(req: any): string {
+  const origin = req.get('origin');
+  console.log(`Origem recebida: ${origin}`); // Adicione este log para verificar a origem
+
   let tenant = TenantType.PRAXIS;
 
   // return req.get('origin');
