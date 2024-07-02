@@ -1,10 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface PatientAttrs {
   name: string;
   cpf: string;
   birthday: Date;
+  responsible: any;
 }
 
 interface PatientModel extends mongoose.Model<PatientDoc> {
@@ -16,6 +17,7 @@ export interface PatientDoc extends mongoose.Document {
   name: string;
   cpf: string;
   birthday: Date;
+  responsible: any;
 }
 
 const PatientSchema = new mongoose.Schema(
@@ -34,6 +36,11 @@ const PatientSchema = new mongoose.Schema(
       type: Date,
       required: false,
       description: 'Data de Nascimento',
+    },
+    responsible: {
+      type: Schema.Types.ObjectId,
+      description: 'Responsável pelo paciente',
+      ref: 'User',
     },
   },
   {
