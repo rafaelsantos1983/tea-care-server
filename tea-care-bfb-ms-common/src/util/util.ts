@@ -149,7 +149,9 @@ export function getOrigin(req: any): string {
 export function getTenantByOrigin(req: any): string {
   let tenant = TenantType.PRAXIS;
 
-  return req.get('origin');
+  // return req.get('origin');
+  //TODO rss3 ajuste com o front
+  return tenant;
 }
 
 /**
