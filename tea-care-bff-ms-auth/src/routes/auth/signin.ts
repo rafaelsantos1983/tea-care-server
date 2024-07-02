@@ -28,10 +28,13 @@ router.post(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log('Recebendo solicitação de login');
       const email = sanitizeHtml(req.body.email) as string;
       const password = sanitizeHtml(req.body.password) as string;
+      console.log(`Email: ${email}, Password: ${password}`);
 
       const tenant: string = getTenantByOrigin(req);
+      console.log(`Tenant recuperado: ${tenant}`);
 
       const User = await mongoWrapper.getModel<UserDoc>(
         tenant,
@@ -39,23 +42,25 @@ router.post(
         UserSchema
       );
 
-      // validar usuário
-      const hasUser = await User.findOne({
-        email: email,
-      });
+      // Validar usuário
+      const hasUser = await User.findOne({ email: email });
+      console.log(`Usuário encontrado: ${hasUser}`);
 
       if (!hasUser) {
+        console.log('Usuário não encontrado');
         throw new BadRequestError('Usuário não localizado.');
       }
 
-      //validar senha
+      // Validar senha
       const validatePassword = await bcrypt.compare(password, hasUser.password);
+      console.log(`Senha válida: ${validatePassword}`);
 
       if (!validatePassword) {
+        console.log('Senha inválida');
         throw new BadRequestError('Senha inválida.');
       }
 
-      //gerar token
+      // Gerar token
       const token = jwt.sign(
         {
           user: {
@@ -66,9 +71,11 @@ router.post(
         process.env.JWT_SECRET,
         { expiresIn: '60m' }
       );
+      console.log(`Token gerado: ${token}`);
 
       res.status(200).json({ token: token });
     } catch (error) {
+      console.error('Erro durante o login:', error);
       next(error);
     }
   }

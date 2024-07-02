@@ -147,9 +147,18 @@ export function getOrigin(req: any): string {
  * @returns
  */
 export function getTenantByOrigin(req: any): string {
+  const origin = req.get('origin');
+  console.log(`Origem recebida: ${origin}`); // Adicione este log para verificar a origem
+
   let tenant = TenantType.PRAXIS;
 
-  return req.get('origin');
+  // Adicione lógica para mapear a origem para o tenant correto, se necessário
+  if (origin === 'http://localhost:5173') {
+    tenant = TenantType.PRAXIS; // Substitua SEU_TENANT pelo valor correto
+  }
+
+  console.log(`Tenant determinado: ${tenant}`); // Adicione este log para verificar o tenant
+  return tenant;
 }
 
 /**
