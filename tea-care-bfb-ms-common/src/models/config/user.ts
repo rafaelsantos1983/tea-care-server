@@ -59,7 +59,7 @@ const UserSchema = new mongoose.Schema(
     },
     cpf: {
       type: String,
-      required: true,
+      required: false,
       description: 'CPF',
     },
     phone: {

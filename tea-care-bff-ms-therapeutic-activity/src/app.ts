@@ -17,6 +17,10 @@ import { healthcheckRoutes } from './app.constants';
 import { livenessRouter } from './routes/liveness';
 import { readinessRouter } from './routes/readiness';
 import { i18n } from './util/i18n';
+import { listPatientRouter } from './routes/patient/list';
+import { deletePatientRouter } from './routes/patient/delete';
+import { findPatientRouter } from './routes/patient/find';
+import { updatePatientRouter } from './routes/patient/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -57,6 +61,12 @@ app.use(livenessRouter);
 app.use(readinessRouter);
 
 // Endpoints de Negócio
+
+app.use(listPatientRouter);
+app.use(deletePatientRouter);
+app.use(findPatientRouter);
+app.use(updatePatientRouter);
+app.use(deletePatientRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);
