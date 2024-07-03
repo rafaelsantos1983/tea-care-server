@@ -21,14 +21,14 @@ router.delete(
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const PatientId = sanitizeString(req.params.PatientId) as string;
+      const patientId = sanitizeString(req.params.patientId) as string;
       const Patient = await mongoWrapper.getModel<PatientDoc>(
         tenant,
         'Patient',
         PatientSchema
       );
       await Patient.deleteMany({
-        _id: PatientId,
+        _id: patientId,
       }).exec();
 
       res.status(200).json('OK');

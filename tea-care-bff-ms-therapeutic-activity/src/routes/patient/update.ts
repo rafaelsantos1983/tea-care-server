@@ -6,9 +6,9 @@ import {
   getTenantByOrigin,
   PatientDoc,
   PatientSchema,
-} from "@teacare/tea-care-bfb-ms-common";
-import express, { NextFunction, Request, Response } from "express";
-import sanitizeHtml from "sanitize-html";
+} from '@teacare/tea-care-bfb-ms-common';
+import express, { NextFunction, Request, Response } from 'express';
+import sanitizeHtml from 'sanitize-html';
 
 const router = express.Router();
 
@@ -16,14 +16,14 @@ const router = express.Router();
  * Atualizar
  */
 router.post(
-  "/api/therapeutic-activity/patients/:patientId",
+  '/api/therapeutic-activity/patients/:patientId',
   validateRequest,
-  updatePatient,
+  updatePatient
 );
 
 async function updatePatient(req: Request, res: Response, next: NextFunction) {
   try {
-    const patientId = sanitizeString(req.params.PatientId) as string;
+    const patientId = sanitizeString(req.params.patientId) as string;
     const tenant: string = getTenantByOrigin(req);
 
     const name = sanitizeHtml(req.body.name);
@@ -32,8 +32,8 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
 
     const Patient = await mongoWrapper.getModel<PatientDoc>(
       tenant,
-      "Patient",
-      PatientSchema,
+      'Patient',
+      PatientSchema
     );
 
     let patient = await Patient.findOne({

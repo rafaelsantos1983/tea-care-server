@@ -21,6 +21,7 @@ import { listPatientRouter } from './routes/patient/list';
 import { deletePatientRouter } from './routes/patient/delete';
 import { findPatientRouter } from './routes/patient/find';
 import { updatePatientRouter } from './routes/patient/update';
+import { signupRouter } from './routes/patient/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -67,6 +68,7 @@ app.use(deletePatientRouter);
 app.use(findPatientRouter);
 app.use(updatePatientRouter);
 app.use(deletePatientRouter);
+app.use(signupRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);
