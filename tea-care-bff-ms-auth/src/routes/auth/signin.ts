@@ -20,7 +20,7 @@ import { signinValidations } from '../../middlewares/signinValidations';
 const router = express.Router();
 
 /**
- * Autenticação
+ * Autenticação ao Aplicativo
  */
 router.post(
   '/api/signin',
@@ -52,7 +52,7 @@ router.post(
       const validatePassword = await bcrypt.compare(password, hasUser.password);
 
       if (!validatePassword) {
-        throw new BadRequestError('Senha inválida.');
+        throw new BadRequestError('Senha inválida!');
       }
 
       //gerar token

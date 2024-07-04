@@ -1,5 +1,4 @@
-ARG repository_image
-FROM ${repository_image}node:20.12.0-alpine
+FROM node:20.14.0-alpine
 
 RUN apk add --no-cache tzdata
 
