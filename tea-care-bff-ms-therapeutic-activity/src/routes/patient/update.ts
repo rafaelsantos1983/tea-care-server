@@ -3,7 +3,6 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  createDate,
   getTenantByOrigin,
   PatientDoc,
   PatientSchema,
@@ -24,11 +23,12 @@ router.post(
 
 async function updatePatient(req: Request, res: Response, next: NextFunction) {
   try {
-    const PatientId = sanitizeString(req.params.PatientId) as string;
+    const patientId = sanitizeString(req.params.patientId) as string;
     const tenant: string = getTenantByOrigin(req);
 
     const name = sanitizeHtml(req.body.name);
     const cpf = sanitizeHtml(req.body.cpf);
+    const birthday = sanitizeHtml(req.body.birthday);
 
     const Patient = await mongoWrapper.getModel<PatientDoc>(
       tenant,
@@ -37,7 +37,7 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
     );
 
     let patient = await Patient.findOne({
-      _id: PatientId,
+      _id: patientId,
     });
     if (!patient) {
       throw new NotFoundError();
@@ -45,8 +45,7 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
 
     patient.name = name;
     patient.cpf = cpf;
-
-    patient.updateDate = createDate();
+    patient.birthday = new Date(birthday);
 
     await patient.save();
 

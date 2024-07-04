@@ -5,7 +5,6 @@ interface ProfileAttrs {
   name: string;
   symbol: string;
   functionalitties: [];
-  creationDate: Date | null;
   updateDate: Date | null;
 }
 
@@ -22,8 +21,6 @@ export interface ProfileDoc extends mongoose.Document {
     name: string;
     symbol: string;
   };
-  creationDate: Date | null;
-  updateDate: Date | null;
 }
 
 const ProfileSchema = new mongoose.Schema(
@@ -42,14 +39,6 @@ const ProfileSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Functionalitty',
     },
-    creationDate: {
-      type: Date,
-      description: 'Data de Criação',
-    },
-    updateDate: {
-      type: Date,
-      description: 'Data de Atualização',
-    },
   },
   {
     toJSON: {
@@ -59,6 +48,7 @@ const ProfileSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

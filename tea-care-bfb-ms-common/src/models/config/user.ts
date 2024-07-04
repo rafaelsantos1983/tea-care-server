@@ -1,5 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { USerType as UserType } from './user-type';
+import { Occupation } from '../care-type';
 
 interface UserAttrs {
   name: string;
@@ -7,9 +9,8 @@ interface UserAttrs {
   password: string;
   cpf: string;
   phone: string;
+  type: UserType;
   propfiles: [];
-  creationDate: Date | null;
-  updateDate: Date | null;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -23,13 +24,15 @@ export interface UserDoc extends mongoose.Document {
   password: string;
   cpf: string;
   phone: string;
-  propfiles: {
-    id: string;
-    name: string;
-    symbol: string;
-  };
-  creationDate: Date | null;
-  updateDate: Date | null;
+  type: UserType;
+  occupation: Occupation;
+  propfiles: [
+    {
+      id: string;
+      name: string;
+      symbol: string;
+    },
+  ];
 }
 
 const UserSchema = new mongoose.Schema(
@@ -38,11 +41,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       description: 'Nome',
+      index: true,
     },
     email: {
       type: String,
+      lowercase: true,
       required: true,
+      unique: true,
+      match: [/\S+@\S+\.\S+/, 'está inválido.'],
       description: 'E-mail',
+      index: true,
     },
     password: {
       type: String,
@@ -62,18 +70,24 @@ const UserSchema = new mongoose.Schema(
       maxLength: [11, 'Telefone com no máximo 11 dígitos'],
       match: [/\d{10}/, 'O telefone só pode contar números'],
     },
-    profiles: {
-      type: Schema.Types.ObjectId,
-      ref: 'Profile',
+    type: {
+      type: String,
+      enum: Object.values(UserType),
+      required: false,
+      description: 'Tipo de usuário: Interno ou Externo',
     },
-    creationDate: {
-      type: Date,
-      description: 'Data de Criação',
+    occupation: {
+      type: String,
+      enum: Object.values(Occupation),
+      required: false,
+      description: 'Profissão',
     },
-    updateDate: {
-      type: Date,
-      description: 'Data de Atualização',
-    },
+    profiles: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Profile',
+      },
+    ],
   },
   {
     toJSON: {
@@ -83,6 +97,7 @@ const UserSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

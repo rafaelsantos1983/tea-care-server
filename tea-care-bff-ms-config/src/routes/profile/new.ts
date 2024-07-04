@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
 import {
-  createDate,
   getTenantByOrigin,
   mongoWrapper,
 } from '@teacare/tea-care-bfb-ms-common';
@@ -49,8 +48,6 @@ router.put(
       const profilealitty = new Profile({
         name: name,
         symbol: symbol,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await profilealitty.save();

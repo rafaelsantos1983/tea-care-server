@@ -1,13 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 interface PatientAttrs {
   name: string;
   cpf: string;
-  phone: string;
   birthday: Date;
-  creationDate: Date | null;
-  updateDate: Date | null;
+  responsible: any;
 }
 
 interface PatientModel extends mongoose.Model<PatientDoc> {
@@ -18,10 +16,8 @@ export interface PatientDoc extends mongoose.Document {
   _id: string;
   name: string;
   cpf: string;
-  phone: string;
   birthday: Date;
-  creationDate: Date | null;
-  updateDate: Date | null;
+  responsible: any;
 }
 
 const PatientSchema = new mongoose.Schema(
@@ -36,26 +32,15 @@ const PatientSchema = new mongoose.Schema(
       required: false,
       description: 'CPF',
     },
-    phone: {
-      type: String,
-      required: false,
-      description: 'Telefone',
-      minLength: [10, 'Telefone com no minímo 10 dígitos'],
-      maxLength: [11, 'Telefone com no máximo 11 dígitos'],
-      match: [/\d{10}/, 'O telefone só pode contar números'],
-    },
     birthday: {
       type: Date,
       required: false,
       description: 'Data de Nascimento',
     },
-    creationDate: {
-      type: Date,
-      description: 'Data de Criação',
-    },
-    updateDate: {
-      type: Date,
-      description: 'Data de Atualização',
+    responsible: {
+      type: Schema.Types.ObjectId,
+      description: 'Responsável pelo paciente',
+      ref: 'User',
     },
   },
   {
@@ -66,6 +51,7 @@ const PatientSchema = new mongoose.Schema(
         delete ret.__v;
       },
     },
+    timestamps: true,
   }
 );
 

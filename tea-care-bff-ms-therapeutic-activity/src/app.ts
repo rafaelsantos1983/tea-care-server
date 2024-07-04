@@ -17,6 +17,11 @@ import { healthcheckRoutes } from './app.constants';
 import { livenessRouter } from './routes/liveness';
 import { readinessRouter } from './routes/readiness';
 import { i18n } from './util/i18n';
+import { listPatientRouter } from './routes/patient/list';
+import { deletePatientRouter } from './routes/patient/delete';
+import { findPatientRouter } from './routes/patient/find';
+import { updatePatientRouter } from './routes/patient/update';
+import { signupRouter } from './routes/patient/new';
 
 const app = express();
 app.set('trust proxy', true);
@@ -31,30 +36,39 @@ if (process.env.NODE_ENV != 'local') {
 }
 
 // Autenticação com JWT
-app.use(
-  jwt({
-    secret: process.env.JWT_SECRET as string,
-    algorithms: ['HS512'],
-  }).unless({
-    path: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   jwt({
+//     secret: process.env.JWT_SECRET as string,
+//     algorithms: ['HS512'],
+//   }).unless({
+//     path: healthcheckRoutes,
+//   })
+// );
 
 // Middleware para tratar erros na validação do JWT
-app.use(authErrorInterceptor);
-
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(authErrorInterceptor);
 // Middleware de Tradução
-app.use(
-  i18nextMiddleware.handle(i18n, {
-    ignoreRoutes: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   i18nextMiddleware.handle(i18n, {
+//     ignoreRoutes: healthcheckRoutes,
+//   })
+// );
 
 // Rotas abertas
 app.use(livenessRouter);
 app.use(readinessRouter);
 
 // Endpoints de Negócio
+
+app.use(listPatientRouter);
+app.use(deletePatientRouter);
+app.use(findPatientRouter);
+app.use(updatePatientRouter);
+app.use(deletePatientRouter);
+app.use(signupRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);

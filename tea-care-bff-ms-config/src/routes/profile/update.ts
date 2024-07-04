@@ -3,7 +3,6 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  createDate,
   ProfileSchema,
   ProfileDoc,
   getTenantByOrigin,
@@ -45,8 +44,6 @@ async function updateProfile(req: Request, res: Response, next: NextFunction) {
     }
 
     profile.name = name;
-
-    profile.updateDate = createDate();
 
     await profile.save();
 

@@ -20,7 +20,7 @@ router.get(
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const PatientId = sanitizeString(req.params.PatientId) as string;
+      const patientId = sanitizeString(req.params.patientId) as string;
       const tenant: string = getTenantByOrigin(req);
       const Patient = await mongoWrapper.getModel<PatientDoc>(
         tenant,
@@ -29,7 +29,7 @@ router.get(
       );
 
       let patient = await Patient.findOne({
-        _id: PatientId,
+        _id: patientId,
       });
       if (!patient) {
         throw new NotFoundError();

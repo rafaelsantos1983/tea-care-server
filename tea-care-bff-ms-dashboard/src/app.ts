@@ -31,24 +31,26 @@ if (process.env.NODE_ENV != 'local') {
 }
 
 // Autenticação com JWT
-app.use(
-  jwt({
-    secret: process.env.JWT_SECRET as string,
-    algorithms: ['HS512'],
-  }).unless({
-    path: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   jwt({
+//     secret: process.env.JWT_SECRET as string,
+//     algorithms: ['HS512'],
+//   }).unless({
+//     path: healthcheckRoutes,
+//   })
+// );
 
 // Middleware para tratar erros na validação do JWT
-app.use(authErrorInterceptor);
-
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(authErrorInterceptor);
 // Middleware de Tradução
-app.use(
-  i18nextMiddleware.handle(i18n, {
-    ignoreRoutes: healthcheckRoutes,
-  })
-);
+//TODO rss comentário até a conclusão do envio do JWT pelo front
+// app.use(
+//   i18nextMiddleware.handle(i18n, {
+//     ignoreRoutes: healthcheckRoutes,
+//   })
+// );
 
 // Rotas abertas
 app.use(livenessRouter);

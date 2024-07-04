@@ -1,9 +1,4 @@
-import {
-  TenantDoc,
-  logger,
-  mongoWrapper,
-  createDate,
-} from '@teacare/tea-care-bfb-ms-common';
+import { TenantDoc, logger, createDate } from '@teacare/tea-care-bfb-ms-common';
 import { readFileSync } from 'fs';
 
 export async function executeScripts(tenants: TenantDoc[]) {
@@ -18,20 +13,19 @@ export async function executeScripts(tenants: TenantDoc[]) {
 
     for (const migration of changeLog.migrations) {
       logger.debug(
-        `[ms-dashboard:migration-service] Verificar se executar o arquivo ${migration} no tenant ${tenant.name}`
+        `[ms-report:migration-service] Verificar se executar o arquivo ${migration} no tenant ${tenant.name}`
       );
 
       if (!tenant.migrations.some((m) => m.fileName === migration)) {
         const script = await import(`${__dirname}/migrations/${migration}`);
         logger.debug(
-          `[ms-dashboard:migration-service] Executar script ${migration} do tenant ${tenant.name}`
+          `[ms-report:migration-service] Executar script ${migration} do tenant ${tenant.name}`
         );
         await script.exec(tenant.name);
         tenant.migrations.push({
           fileName: migration,
           dateExecuted: createDate(),
         });
-        // tenant.markModified('migrations');
       }
     }
 

@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
 import {
-  createDate,
   getTenantByOrigin,
   mongoWrapper,
 } from '@teacare/tea-care-bfb-ms-common';
@@ -47,8 +46,6 @@ router.put(
       const functionalittyalitty = new Functionalitty({
         name: name,
         symbol: symbol,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await functionalittyalitty.save();

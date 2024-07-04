@@ -6,6 +6,7 @@ import {
   mongoWrapper,
   UserSchema,
   UserDoc,
+  logger,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const bcrypt = require('bcrypt');
@@ -39,23 +40,21 @@ router.post(
         UserSchema
       );
 
-      // validar usuário
-      const hasUser = await User.findOne({
-        email: email,
-      });
+      // Validar usuário
+      const hasUser = await User.findOne({ email: email });
 
       if (!hasUser) {
         throw new BadRequestError('Usuário não localizado.');
       }
 
-      //validar senha
+      // Validar senha
       const validatePassword = await bcrypt.compare(password, hasUser.password);
 
       if (!validatePassword) {
         throw new BadRequestError('Senha inválida!');
       }
 
-      //gerar token
+      // Gerar token
       const token = jwt.sign(
         {
           user: {
@@ -69,6 +68,7 @@ router.post(
 
       res.status(200).json({ token: token });
     } catch (error) {
+      logger.error('Erro durante o login:', error);
       next(error);
     }
   }

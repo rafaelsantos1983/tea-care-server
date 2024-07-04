@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import sanitizeHtml from 'sanitize-html';
 
 import {
-  createDate,
   getTenantByOrigin,
   mongoWrapper,
   UserSchema,
@@ -63,8 +62,6 @@ router.post(
         name: name,
         password: passwordHash,
         email: email,
-        creationDate: createDate(),
-        updateDate: createDate(),
       });
 
       await user.save();
