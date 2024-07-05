@@ -7,7 +7,7 @@ export * from './src/errors/request-validation-error';
 
 export * from './src/models/config/user';
 export * from './src/models/patient';
-export * from './src/models/config/functionalitty';
+export * from './src/models/config/functionality';
 export * from './src/models/config/profile';
 
 export * from './src/middlewares/error-handler';

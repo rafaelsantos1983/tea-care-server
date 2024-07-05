@@ -9,8 +9,8 @@ import {
 import {
   validateRequest,
   BadRequestError,
-  FunctionalittySchema,
-  FunctionalittyDoc,
+  FunctionalitySchema,
+  FunctionalityDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -19,7 +19,7 @@ const router = express.Router();
  * Criar
  */
 router.put(
-  '/api/config/functionalittyalitties',
+  '/api/config/functionalityalitties',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -28,33 +28,33 @@ router.put(
 
       const tenant: string = getTenantByOrigin(req);
 
-      const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
+      const Functionality = await mongoWrapper.getModel<FunctionalityDoc>(
         tenant,
-        'Functionalitty',
-        FunctionalittySchema
+        'Functionality',
+        FunctionalitySchema
       );
 
       // consulta se já existe
-      const hasFunctionalitty = await Functionalitty.findOne({
+      const hasFunctionality = await Functionality.findOne({
         symbol: symbol,
       });
 
-      if (hasFunctionalitty) {
+      if (hasFunctionality) {
         throw new BadRequestError('Funcionalidade já existe.');
       }
 
-      const functionalittyalitty = new Functionalitty({
+      const functionalityalitty = new Functionality({
         name: name,
         symbol: symbol,
       });
 
-      await functionalittyalitty.save();
+      await functionalityalitty.save();
 
-      res.status(201).json(functionalittyalitty);
+      res.status(201).json(functionalityalitty);
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newFunctionalittyRouter };
+export { router as newFunctionalityRouter };

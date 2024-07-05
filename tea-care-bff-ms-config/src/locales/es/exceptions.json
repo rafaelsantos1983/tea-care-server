@@ -9,7 +9,7 @@
       "maxLength": "El campo símbolo debe tener un máximo de 100 caracteres."
     }
   },
-  "functionalitty": {
+  "functionality": {
     "name": {
       "requiredField": "El campo nombre es un campo obligatorio",
       "maxLength": "El campo nombre debe tener un máximo de 100 caracteres."

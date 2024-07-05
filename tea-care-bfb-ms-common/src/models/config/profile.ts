@@ -4,7 +4,7 @@ import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 interface ProfileAttrs {
   name: string;
   symbol: string;
-  functionalitties: [];
+  functionalities: [];
   updateDate: Date | null;
 }
 
@@ -16,11 +16,13 @@ export interface ProfileDoc extends mongoose.Document {
   _id: string;
   name: string;
   symbol: string;
-  functionalitties: {
-    id: string;
-    name: string;
-    symbol: string;
-  };
+  functionalities: [
+    {
+      id: string;
+      name: string;
+      symbol: string;
+    },
+  ];
 }
 
 const ProfileSchema = new mongoose.Schema(
@@ -35,10 +37,12 @@ const ProfileSchema = new mongoose.Schema(
       required: true,
       description: 'Símbolo do Papel',
     },
-    functionalitties: {
-      type: Schema.Types.ObjectId,
-      ref: 'Functionalitty',
-    },
+    functionalities: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Functionality',
+      },
+    ],
   },
   {
     toJSON: {

@@ -9,7 +9,7 @@ import https = require('https');
 import { readFileSync } from 'fs';
 
 import { app } from './app';
-import { executeScripts } from './database/migrations-service';
+import { migrations } from './database/migrations-service';
 
 app.locals.readiness = false;
 
@@ -70,7 +70,7 @@ const start = async () => {
       logger.info(
         '[ms-therapeutic-activity:index] Executar scripts de ajustes no banco.'
       );
-      await executeScripts(tenants);
+      await migrations(tenants);
     }
   } catch (err) {
     logger.error(

@@ -22,7 +22,7 @@ COPY tea-care-bff-ms-report .
 RUN npm install -g typescript
 RUN npm run build
 COPY tea-care-bff-ms-report/src/locales ./build/locales
-COPY tea-care-bff-ms-report/src/database/changelog.json ./build/database/changelog.json
+COPY tea-care-bff-ms-report/src/database/migrationLog.json ./build/database/migrationLog.json
 RUN npm ci --only=production
 
 RUN npm i -g npm@latest

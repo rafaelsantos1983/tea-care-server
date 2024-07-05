@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
-import { USerType as UserType } from './user-type';
+import { UserType as UserType } from './user-type';
 import { Occupation } from '../care-type';
 
 interface UserAttrs {

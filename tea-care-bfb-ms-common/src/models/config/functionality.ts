@@ -1,22 +1,22 @@
 import mongoose from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
-interface FunctionalittyAttrs {
+interface FunctionalityAttrs {
   name: string;
   symbol: string;
 }
 
-interface FunctionalittyModel extends mongoose.Model<FunctionalittyDoc> {
-  build(attrs: FunctionalittyAttrs): FunctionalittyDoc;
+interface FunctionalityModel extends mongoose.Model<FunctionalityDoc> {
+  build(attrs: FunctionalityAttrs): FunctionalityDoc;
 }
 
-export interface FunctionalittyDoc extends mongoose.Document {
+export interface FunctionalityDoc extends mongoose.Document {
   _id: string;
   name: string;
   symbol: string;
 }
 
-const FunctionalittySchema = new mongoose.Schema(
+const FunctionalitySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -41,7 +41,7 @@ const FunctionalittySchema = new mongoose.Schema(
   }
 );
 
-FunctionalittySchema.set('versionKey', 'version');
-FunctionalittySchema.plugin(updateIfCurrentPlugin);
+FunctionalitySchema.set('versionKey', 'version');
+FunctionalitySchema.plugin(updateIfCurrentPlugin);
 
-export { FunctionalittySchema as FunctionalittySchema };
+export { FunctionalitySchema as FunctionalitySchema };

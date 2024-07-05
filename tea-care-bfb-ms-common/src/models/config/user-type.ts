@@ -1,4 +1,4 @@
-export enum USerType {
+export enum UserType {
   //interno
   internal = 'I',
 

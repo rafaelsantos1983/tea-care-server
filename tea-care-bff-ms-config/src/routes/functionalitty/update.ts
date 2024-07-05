@@ -3,8 +3,8 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  FunctionalittySchema,
-  FunctionalittyDoc,
+  FunctionalitySchema,
+  FunctionalityDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 import express, { NextFunction, Request, Response } from 'express';
@@ -16,45 +16,45 @@ const router = express.Router();
  * Atualizar
  */
 router.post(
-  '/api/config/functionalitties/:functionalittyId',
+  '/api/config/functionalities/:functionalityId',
   validateRequest,
-  updateFunctionalitty
+  updateFunctionality
 );
 
-async function updateFunctionalitty(
+async function updateFunctionality(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    const functionalittyId = sanitizeString(
-      req.params.functionalittyId
+    const functionalityId = sanitizeString(
+      req.params.functionalityId
     ) as string;
     const tenant: string = getTenantByOrigin(req);
 
     const name = sanitizeHtml(req.body.name);
 
-    const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
+    const Functionality = await mongoWrapper.getModel<FunctionalityDoc>(
       tenant,
-      'Functionalitty',
-      FunctionalittySchema
+      'Functionality',
+      FunctionalitySchema
     );
 
-    let functionalitty = await Functionalitty.findOne({
-      _id: functionalittyId,
+    let functionality = await Functionality.findOne({
+      _id: functionalityId,
     });
-    if (!functionalitty) {
+    if (!functionality) {
       throw new NotFoundError();
     }
 
-    functionalitty.name = name;
+    functionality.name = name;
 
-    await functionalitty.save();
+    await functionality.save();
 
-    res.status(200).json(functionalitty);
+    res.status(200).json(functionality);
   } catch (error) {
     next(error);
   }
 }
 
-export { router as updateFunctionalittyRouter };
+export { router as updateFunctionalityRouter };

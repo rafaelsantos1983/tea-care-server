@@ -5,8 +5,8 @@ import {
   NotFoundError,
   sanitizeString,
   validateRequest,
-  FunctionalittySchema,
-  FunctionalittyDoc,
+  FunctionalitySchema,
+  FunctionalityDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -16,28 +16,28 @@ const router = express.Router();
  * Consulta pelo Id
  */
 router.get(
-  '/api/config/functionalitties/:functionalittyId',
+  '/api/config/functionalities/:functionalityId',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const functionalittyId = sanitizeString(
-        req.params.functionalittyId
+      const functionalityId = sanitizeString(
+        req.params.functionalityId
       ) as string;
       const tenant: string = getTenantByOrigin(req);
-      const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
+      const Functionality = await mongoWrapper.getModel<FunctionalityDoc>(
         tenant,
-        'Functionalitty',
-        FunctionalittySchema
+        'Functionality',
+        FunctionalitySchema
       );
 
-      let functionalitty = await Functionalitty.findOne({
-        _id: functionalittyId,
+      let functionality = await Functionality.findOne({
+        _id: functionalityId,
       });
-      if (!functionalitty) {
+      if (!functionality) {
         throw new NotFoundError();
       }
 
-      res.status(200).json(functionalitty);
+      res.status(200).json(functionality);
     } catch (error) {
       next(error);
     }

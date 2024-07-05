@@ -22,7 +22,7 @@ COPY tea-care-bff-ms-dashboard .
 RUN npm install -g typescript
 RUN npm run build
 COPY tea-care-bff-ms-dashboard/src/locales ./build/locales
-COPY tea-care-bff-ms-dashboard/src/database/changelog.json ./build/database/changelog.json
+COPY tea-care-bff-ms-dashboard/src/database/migrationLog.json ./build/database/migrationLog.json
 RUN npm ci --only=production
 
 RUN npm i -g npm@latest

@@ -1,10 +1,4 @@
-import {
-  createConnection,
-  Connection,
-  Schema,
-  Model,
-  connection,
-} from 'mongoose';
+import { createConnection, Connection, Schema, Model } from 'mongoose';
 import { TenantType } from '../..';
 import { DatabaseConnectionError } from '../errors/database-connection-error';
 import { ServiceName } from '../models/tenants/service-name';

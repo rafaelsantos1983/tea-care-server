@@ -9,6 +9,7 @@ import https = require('https');
 import { readFileSync } from 'fs';
 
 import { app } from './app';
+import { migrations } from './database/migrations-service';
 
 app.locals.readiness = false;
 
@@ -53,11 +54,14 @@ const start = async () => {
 
   app.locals.logger = logger;
 
-  let tenants: any;
-
   // Conecta com o banco e cria as conexões dos tenants
   try {
-    tenants = await mongoWrapper.connectToMongo(ServiceName.configurator);
+    const tenants = await mongoWrapper.connectToMongo(ServiceName.configurator);
+
+    if (tenants) {
+      logger.info('[ms-config:index] Executar scripts de ajustes no banco.');
+      await migrations(tenants);
+    }
   } catch (err) {
     logger.error('[ms-config][index] Erro ao conectar no Mongo ', err);
   }

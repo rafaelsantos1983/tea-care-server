@@ -9,7 +9,7 @@
       "maxLength": "The symbol field must have a maximum of 100 characters."
     }
   },
-  "functionalitty": {
+  "functionality": {
     "name": {
       "requiredField": "The name field is a required field.",
       "maxLength": "The name field must have a maximum of 100 characters."

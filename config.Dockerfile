@@ -22,6 +22,7 @@ COPY tea-care-bff-ms-config .
 RUN npm install -g typescript
 RUN npm run build
 COPY tea-care-bff-ms-config/src/locales ./build/locales
+COPY tea-care-bff-ms-config/src/database/migrationLog.json ./build/database/migrationLog.json
 RUN npm ci --only=production
 
 RUN npm i -g npm@latest

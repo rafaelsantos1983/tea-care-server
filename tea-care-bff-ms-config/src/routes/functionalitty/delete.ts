@@ -4,8 +4,8 @@ import {
   sanitizeString,
   validateRequest,
   mongoWrapper,
-  FunctionalittySchema,
-  FunctionalittyDoc,
+  FunctionalitySchema,
+  FunctionalityDoc,
   getTenantByOrigin,
 } from '@teacare/tea-care-bfb-ms-common';
 
@@ -15,22 +15,22 @@ const router = express.Router();
  * Remover
  */
 router.delete(
-  '/api/config/functionalitties/:functionalittyId',
+  '/api/config/functionalities/:functionalityId',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const FunctionalittyId = sanitizeString(
-        req.params.FunctionalittyId
+      const FunctionalityId = sanitizeString(
+        req.params.FunctionalityId
       ) as string;
-      const Functionalitty = await mongoWrapper.getModel<FunctionalittyDoc>(
+      const Functionality = await mongoWrapper.getModel<FunctionalityDoc>(
         tenant,
-        'Functionalitty',
-        FunctionalittySchema
+        'Functionality',
+        FunctionalitySchema
       );
-      await Functionalitty.deleteMany({
-        _id: FunctionalittyId,
+      await Functionality.deleteMany({
+        _id: FunctionalityId,
       }).exec();
 
       res.status(200).json('OK');
@@ -40,4 +40,4 @@ router.delete(
   }
 );
 
-export { router as deleteFunctionalittyRouter };
+export { router as deleteFunctionalityRouter };

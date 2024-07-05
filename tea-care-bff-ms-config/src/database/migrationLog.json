@@ -1,0 +1,3 @@
+{
+  "migrations": ["20240705_add-funcionalities.ts", "20240705_add-profiles.ts"]
+}

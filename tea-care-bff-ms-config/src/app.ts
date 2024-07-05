@@ -18,15 +18,10 @@ import { healthcheckRoutes } from './app.constants';
 import { livenessRouter } from './routes/liveness';
 import { readinessRouter } from './routes/readiness';
 import { i18n } from './util/i18n';
-import { newPatientRouter } from './routes/patient/new';
 import { newUserRouter } from './routes/user/new';
 import { deleteUserRouter } from './routes/user/delete';
-import { deletePatientRouter } from './routes/patient/delete';
-import { updatePatientRouter } from './routes/patient/update';
-import { findPatientRouter } from './routes/patient/find';
 import { updateUserRouter } from './routes/user/update';
 import { findUserRouter } from './routes/user/find';
-import { listPatientRouter } from './routes/patient/list';
 import { listUserRouter } from './routes/user/list';
 
 const app = express();
@@ -67,13 +62,6 @@ if (process.env.NODE_ENV != 'local') {
 // Rotas abertas
 app.use(livenessRouter);
 app.use(readinessRouter);
-
-// Endpoints de Negócio
-app.use(newPatientRouter);
-app.use(deletePatientRouter);
-app.use(updatePatientRouter);
-app.use(findPatientRouter);
-app.use(listPatientRouter);
 
 app.use(newUserRouter);
 app.use(deleteUserRouter);
