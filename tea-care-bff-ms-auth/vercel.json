@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "tea-care-bff-ms-auth/src/index.ts",
+      "src": "src/index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/tea-care-bff-ms-auth/(.*)",
-      "dest": "tea-care-bff-ms-auth/src/index.ts"
+      "src": "/(.*)",
+      "dest": "src/index.ts"
     }
   ]
 }
