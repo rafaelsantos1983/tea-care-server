@@ -25,7 +25,9 @@ router.get(
         UserSchema
       );
 
-      const users = await User.find({});
+      const users: any = await User.find({}).select;
+
+      delete users.password;
 
       res.send(users);
     } catch (error) {

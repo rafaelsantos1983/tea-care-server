@@ -28,12 +28,14 @@ router.get(
         UserSchema
       );
 
-      let user = await User.findOne({
+      let user: any = await User.findOne({
         _id: userId,
       });
       if (!user) {
         throw new NotFoundError();
       }
+
+      delete user.password;
 
       res.status(200).json(user);
     } catch (error) {
