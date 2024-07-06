@@ -25,7 +25,12 @@ router.get(
         UserSchema
       );
 
-      const users: any = await User.find({}).select;
+      const users: any = await User.aggregate([
+        {
+          $project: { name: 1, cpf: 1, _id: 1 },
+        },
+        { $sort: { name: 1 } },
+      ]);
 
       delete users.password;
 

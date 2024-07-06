@@ -51,12 +51,6 @@ const start = async () => {
   if (!process.env.NODE_ENV) {
     throw new Error('[ms-therapeutic-activity:index] NODE_ENV must be defined');
   }
-  if (!process.env.PORT) {
-    throw new Error('[ms-therapeutic-activity:index] PORT must be defined');
-  }
-  if (!process.env.TLS_PORT) {
-    throw new Error('[ms-therapeutic-activity:index] TLS_PORT must be defined');
-  }
 
   app.locals.logger = logger;
 
