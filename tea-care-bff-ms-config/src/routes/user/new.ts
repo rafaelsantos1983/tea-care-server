@@ -39,7 +39,7 @@ router.put(
       const phone = sanitizeHtml(req.body.phone) as string;
       const type = sanitizeHtml(req.body.type) as string;
       const occupation = sanitizeHtml(req.body.occupation) as OccupationType;
-      const profilesSymbol = sanitizeArray(req.body.profiles) as Array<string>;
+      const profileIds = sanitizeArray(req.body.profiles) as Array<string>;
 
       const tenant: string = getTenantByOrigin(req);
 
@@ -66,8 +66,8 @@ router.put(
       const profiles = await mongoWrapper
         .getModel<ProfileDoc>(tenant, 'Profile', ProfileSchema)
         .find({
-          symbol: {
-            $in: [profilesSymbol],
+          _id: {
+            $in: [profileIds],
           },
         });
 
