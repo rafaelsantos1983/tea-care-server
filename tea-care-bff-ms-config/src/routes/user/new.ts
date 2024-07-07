@@ -20,7 +20,7 @@ import {
   UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 import { userValidations } from '../../middlewares/userValidations';
-import { OccupationType } from '@teacare/tea-care-bfb-ms-common/build/src/models/care-type';
+import { OccupationType } from '@teacare/tea-care-bfb-ms-common/src/models/occupation-type';
 
 const router = express.Router();
 

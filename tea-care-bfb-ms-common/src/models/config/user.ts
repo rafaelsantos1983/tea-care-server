@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { UserType as UserType } from './user-type';
-import { Occupation } from '../care-type';
+import { OccupationType } from '../occupation-type';
 
 interface UserAttrs {
   name: string;
@@ -25,7 +25,7 @@ export interface UserDoc extends mongoose.Document {
   cpf: string;
   phone: string;
   type: UserType;
-  occupation: Occupation;
+  occupation: OccupationType;
   propfiles: [
     {
       id: string;
@@ -78,7 +78,7 @@ const UserSchema = new mongoose.Schema(
     },
     occupation: {
       type: String,
-      enum: Object.values(Occupation),
+      enum: Object.values(OccupationType),
       required: false,
       description: 'Profissão',
     },

@@ -1,12 +1,11 @@
-version: "3.8"
+version: "3"
 
 services:
   tea-care-config:
-    platform: linux/amd64
     build:
       context: .
       dockerfile: config.Dockerfile
-    image: tea-care-config-ws:latest
+    image: rafaelsantos1983/tea-care-config-ws:latest
     env_file:
       - ./tea-care-bff-ms-config/.env
     environment:
@@ -21,11 +20,10 @@ services:
     command: sh -c "npm install ts-node-dev -g && npm run debug"
     network_mode: "host"
   tea-care-therapeutic-activity:
-    platform: linux/amd64
     build:
       context: .
       dockerfile: therapeutic-activity.Dockerfile
-    image: tea-care-therapeutic-activity-ws:latest
+    image: rafaelsantos1983/tea-care-therapeutic-activity-ws:latest
     env_file:
       - ./tea-care-bff-ms-therapeutic-activity/.env
     environment:
@@ -40,11 +38,10 @@ services:
     command: sh -c "npm install ts-node-dev -g && npm run debug"
     network_mode: "host"
   tea-care-dashboard:
-    platform: linux/amd64
     build:
       context: .
       dockerfile: dashboard.Dockerfile
-    image: tea-care-dashboard-ws:latest
+    image: rafaelsantos1983/tea-care-dashboard-ws:latest
     env_file:
       - ./tea-care-bff-ms-dashboard/.env
     environment:
@@ -59,11 +56,10 @@ services:
     command: sh -c "npm install ts-node-dev -g && npm run debug"
     network_mode: "host"
   tea-care-report:
-    platform: linux/amd64
     build:
       context: .
       dockerfile: report.Dockerfile
-    image: tea-care-report-ws:latest
+    image: rafaelsantos1983/tea-care-report-ws:latest
     env_file:
       - ./tea-care-bff-ms-report/.env
     environment:
@@ -78,11 +74,10 @@ services:
     command: sh -c "npm install ts-node-dev -g && npm run debug"
     network_mode: "host"
   tea-care-auth:
-    platform: linux/amd64
     build:
       context: .
       dockerfile: auth.Dockerfile
-    image: tea-care-auth-ws:latest
+    image: rafaelsantos1983/tea-care-auth-ws:latest
     env_file:
       - ./tea-care-bff-ms-auth/.env
     environment:
