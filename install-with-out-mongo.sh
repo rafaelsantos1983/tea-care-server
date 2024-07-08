@@ -1,3 +1,3 @@
 docker rm tea-care-server_tea-care-dashboard_1 tea-care-server_tea-care-config_1 tea-care-server_tea-care-auth_1 tea-care-server_tea-care-therapeutic-activity_1 tea-care-server_tea-care-report_1 -f &&
-docker rmi tea-care-dashboard-ws:latest tea-care-config-ws:latest tea-care-auth-ws:latest tea-care-therapeutic-activity-ws:latest tea-care-report-ws:latest -f && 
+docker rmi rafaelsantos1983/tea-care-dashboard-ws:latest rafaelsantos1983/tea-care-config-ws:latest rafaelsantos1983/tea-care-auth-ws:latest rafaelsantos1983/tea-care-therapeutic-activity-ws:latest rafaelsantos1983/tea-care-report-ws:latest -f && 
 sudo docker-compose up -d

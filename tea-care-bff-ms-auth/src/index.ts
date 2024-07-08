@@ -21,7 +21,7 @@ try {
   certificate = readFileSync(`${__dirname}/../../certificate/cert.pem`, 'utf8');
 } catch (reason) {
   logger.error(
-    `[ms-therapeutic-activity:index] Error while trying to get certificate information. Error: ${reason}`
+    `[ms-auth:index] Error while trying to get certificate information. Error: ${reason}`
   );
 }
 
@@ -34,41 +34,31 @@ const credentials = {
 
 const start = async () => {
   if (!process.env.LOGGER_LEVEL) {
-    throw new Error(
-      '[ms-therapeutic-activity:index] LOGGER_LEVEL must be defined'
-    );
+    throw new Error('[ms-auth:index] LOGGER_LEVEL must be defined');
   }
   if (!process.env.JWT_SECRET) {
-    throw new Error(
-      '[ms-therapeutic-activity:index] JWT_SECRET must be defined'
-    );
+    throw new Error('[ms-auth:index] JWT_SECRET must be defined');
   }
   if (!process.env.MONGO_URI) {
-    throw new Error(
-      '[ms-therapeutic-activity:index] MONGO_URI must be defined'
-    );
+    throw new Error('[ms-auth:index] MONGO_URI must be defined');
   }
   if (!process.env.NODE_ENV) {
-    throw new Error('[ms-therapeutic-activity:index] NODE_ENV must be defined');
+    throw new Error('[ms-auth:index] NODE_ENV must be defined');
   }
 
   app.locals.logger = logger;
 
   // Conecta com o banco e cria as conexões dos tenants
   try {
-    const tenants = await mongoWrapper.connectToMongo(
-      ServiceName.therapeuticActivity
-    );
+    const tenants = await mongoWrapper.connectToMongo(ServiceName.auth);
 
     if (tenants) {
-      logger.info(
-        '[ms-therapeutic-activity:index] Executar scripts de ajustes no banco.'
-      );
+      logger.info('[ms-auth:index] Executar scripts de ajustes no banco.');
       await migrations(tenants);
     }
   } catch (err) {
     logger.error(
-      '[ms-therapeutic-activity:index] Erro ao conectar/executar script no Mongo ',
+      '[ms-auth:index] Erro ao conectar/executar script no Mongo ',
       err
     );
   }
@@ -76,16 +66,16 @@ const start = async () => {
   const httpsServer = https.createServer(credentials, app);
   const tlsPort = process.env.TLS_PORT || 443;
   httpsServer.listen(tlsPort, () => {
-    console.log(
-      `[ms-therapeutic-activity:index] Analysis Configurator running on port ${tlsPort}`
+    logger.info(
+      `[ms-auth:index] Analysis Configurator running on port ${tlsPort}`
     );
   });
 
   const httpServer = http.createServer(app);
   const port = process.env.PORT || 3000;
   httpServer.listen(port, () => {
-    console.log(
-      `[ms-therapeutic-activity:index] Analysis Configurator running on port ${port}`
+    logger.info(
+      `[ms-auth:index] Analysis Configurator running on port ${port}`
     );
   });
 

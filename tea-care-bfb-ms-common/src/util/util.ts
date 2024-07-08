@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { TenantType } from '../models/tenants/tenant-type';
+import { logger } from './logger';
 
 /**
  * Trunca o valor em duas cadas decimais
@@ -148,7 +149,7 @@ export function getOrigin(req: any): string {
  */
 export function getTenantByOrigin(req: any): string {
   const origin = req.get('origin');
-  console.log(`Origem recebida: ${origin}`); // Adicione este log para verificar a origem
+  logger.debug(`Origem recebida: ${origin}`); // Adicione este log para verificar a origem
 
   let tenant = TenantType.PRAXIS;
 

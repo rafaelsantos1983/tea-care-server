@@ -76,7 +76,7 @@ const start = async () => {
   const httpsServer = https.createServer(credentials, app);
   const tlsPort = process.env.TLS_PORT || 443;
   httpsServer.listen(tlsPort, () => {
-    console.log(
+    logger.info(
       `[ms-therapeutic-activity:index] Analysis Configurator running on port ${tlsPort}`
     );
   });
@@ -84,7 +84,7 @@ const start = async () => {
   const httpServer = http.createServer(app);
   const port = process.env.PORT || 3000;
   httpServer.listen(port, () => {
-    console.log(
+    logger.info(
       `[ms-therapeutic-activity:index] Analysis Configurator running on port ${port}`
     );
   });

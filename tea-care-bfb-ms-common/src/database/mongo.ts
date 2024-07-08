@@ -15,7 +15,7 @@ const connect = async (mongoUri: any, tenant: string, database: string) => {
   if (mongoUri) {
     try {
       const connection = await createConnection(mongoUri, mongoOptions);
-      console.log(
+      logger.info(
         `[ms-common:mongo] Conexão com o MongoDB criada com sucesso para ${database} do tenant ${tenant}.`
       );
       return connection;
@@ -83,14 +83,14 @@ class MongoWrapper implements IMongoWrapper {
   async connectToMongo(serviceName: ServiceName) {
     let tenants: TenantDoc[];
     try {
-      console.log(`[ms-common:mongo] Criando conexão com os tenants.`);
+      logger.info(`[ms-common:mongo] Criando conexão com os tenants.`);
       const tenantsDatabase = await connect(
         process.env.MONGO_URI,
         '',
         'tenantsDatabase'
       );
       tenants = await this.getTenants(tenantsDatabase);
-      console.log(
+      logger.info(
         `[ms-common:mongo] Conexão estabelecida com os tenants: ${JSON.stringify(
           tenants.map((t) => t.name)
         )}`
@@ -128,7 +128,7 @@ class MongoWrapper implements IMongoWrapper {
           throw new DatabaseConnectionError();
         }
 
-        console.log(
+        logger.info(
           `[ms-common:mongo] Conectado ao DB no tenant: ${tenant.name} do serviço ${serviceName}.`
         );
         this._tenantConnections.set(tenant.name, tenantConnection);

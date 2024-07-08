@@ -1,0 +1,1 @@
+docker push rafaelsantos1983/tea-care-report-ws && docker push rafaelsantos1983/tea-care-dashboard-ws &&  docker push rafaelsantos1983/tea-care-therapeutic-activity-ws &&  docker push rafaelsantos1983/tea-care-auth-ws && docker push rafaelsantos1983/tea-care-config-ws
