@@ -6,6 +6,7 @@ import {
   mongoWrapper,
   PatientSchema,
   PatientDoc,
+  UserSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 
 import {
@@ -26,17 +27,7 @@ router.post(
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
       const birthday = sanitizeHtml(req.body.birthday) as string;
-      const responsible = req.body.responsible;
-
-    if (responsible && typeof responsible == 'object') {
-      for (var key in responsible) {
-        if (typeof responsible[key] == 'string') {
-          responsible[key] = sanitizeHtml(responsible[key]);
-        }
-      }
-    } else {
-      throw new Error('Impossivel desserializar conteudo do responsavel');
-    }
+      const responsibleId = sanitizeHtml(req.body.responsibleId) as string;
 
       const tenant: string = getTenantByOrigin(req);
 
@@ -46,10 +37,20 @@ router.post(
         PatientSchema
       );
 
+      const User = await mongoWrapper.getModel<UserDoc>(
+        tenant,
+        'User',
+        UserSchema
+      );
+
       // consulta se já existe
       const hasPatient = await Patient.findOne({
         cpf: cpf,
       });
+
+      const responsible = await User.findOne({
+        _id: responsibleId,
+      })
 
       if (hasPatient) {
         throw new BadRequestError('Paciente já existe.');
@@ -59,7 +60,7 @@ router.post(
         name: name,
         cpf: cpf,
         birthday: birthday,
-        responsible: responsible,
+        responsible: responsible
       });
 
       await user.save();
