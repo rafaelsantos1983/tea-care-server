@@ -10,6 +10,7 @@ interface UserAttrs {
   cpf: string;
   phone: string;
   type: UserType;
+  occupation: OccupationType;
   propfiles: [];
 }
 
