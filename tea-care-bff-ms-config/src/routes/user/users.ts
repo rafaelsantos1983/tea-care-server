@@ -39,4 +39,4 @@ router.get(
   }
 );
 
-export { router as listUserRouter };
+export { router as usersRouter };

@@ -23,6 +23,8 @@ import { deleteUserRouter } from './routes/user/delete';
 import { updateUserRouter } from './routes/user/update';
 import { findUserRouter } from './routes/user/find';
 import { listUserRouter } from './routes/user/list';
+import { usersRouter } from './routes/user/users';
+import { profilesRouter } from './routes/profile/profiles';
 
 const app = express();
 app.set('trust proxy', true);
@@ -68,6 +70,9 @@ app.use(deleteUserRouter);
 app.use(updateUserRouter);
 app.use(findUserRouter);
 app.use(listUserRouter);
+
+app.use(usersRouter);
+app.use(profilesRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);
