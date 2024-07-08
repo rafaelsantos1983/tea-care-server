@@ -26,6 +26,17 @@ router.post(
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
       const birthday = sanitizeHtml(req.body.birthday) as string;
+      const responsible = req.body.responsible;
+
+    if (responsible && typeof responsible == 'object') {
+      for (var key in responsible) {
+        if (typeof responsible[key] == 'string') {
+          responsible[key] = sanitizeHtml(responsible[key]);
+        }
+      }
+    } else {
+      throw new Error('Impossivel desserializar conteudo do responsavel');
+    }
 
       const tenant: string = getTenantByOrigin(req);
 
@@ -48,6 +59,7 @@ router.post(
         name: name,
         cpf: cpf,
         birthday: birthday,
+        responsible: responsible,
       });
 
       await user.save();

@@ -29,6 +29,17 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
     const name = sanitizeHtml(req.body.name);
     const cpf = sanitizeHtml(req.body.cpf);
     const birthday = sanitizeHtml(req.body.birthday);
+    const responsible = req.body.responsible;
+
+    if (responsible && typeof responsible == 'object') {
+      for (var key in responsible) {
+        if (typeof responsible[key] == 'string') {
+          responsible[key] = sanitizeHtml(responsible[key]);
+        }
+      }
+    } else {
+      throw new Error('Impossivel desserializar conteudo do responsavel');
+    }
 
     const Patient = await mongoWrapper.getModel<PatientDoc>(
       tenant,
@@ -46,6 +57,7 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
     patient.name = name;
     patient.cpf = cpf;
     patient.birthday = new Date(birthday);
+    patient.responsible = responsible;
 
     await patient.save();
 

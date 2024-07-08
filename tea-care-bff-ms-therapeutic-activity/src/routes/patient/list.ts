@@ -19,13 +19,13 @@ router.get(
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const Patient = mongoWrapper.getModel<PatientDoc>(
         tenant,
         'Patient',
         PatientSchema
       );
 
-      const patients = await Patient.find({});
+      const patients = await Patient.find({}).populate('responsible');
 
       res.send(patients);
     } catch (error) {
