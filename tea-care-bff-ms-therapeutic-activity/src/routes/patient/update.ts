@@ -6,6 +6,7 @@ import {
   getTenantByOrigin,
   PatientDoc,
   PatientSchema,
+  UserSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 import express, { NextFunction, Request, Response } from 'express';
 import sanitizeHtml from 'sanitize-html';
@@ -26,9 +27,10 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
     const patientId = sanitizeString(req.params.patientId) as string;
     const tenant: string = getTenantByOrigin(req);
 
-    const name = sanitizeHtml(req.body.name);
-    const cpf = sanitizeHtml(req.body.cpf);
-    const birthday = sanitizeHtml(req.body.birthday);
+    const name = sanitizeHtml(req.body.name) as string;
+    const cpf = sanitizeHtml(req.body.cpf) as string;
+    const birthday = sanitizeHtml(req.body.birthday) as string;
+    const responsibleId = sanitizeHtml(req.body.responsibleId) as string;
 
     const Patient = await mongoWrapper.getModel<PatientDoc>(
       tenant,
@@ -36,9 +38,20 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
       PatientSchema
     );
 
-    let patient = await Patient.findOne({
+    const User = await mongoWrapper.getModel<UserDoc>(
+      tenant,
+      'User',
+      UserSchema
+    );
+
+    const responsible = await User.findOne({
+      _id: responsibleId,
+    })
+
+    const patient = await Patient.findOne({
       _id: patientId,
     });
+
     if (!patient) {
       throw new NotFoundError();
     }
@@ -46,6 +59,7 @@ async function updatePatient(req: Request, res: Response, next: NextFunction) {
     patient.name = name;
     patient.cpf = cpf;
     patient.birthday = new Date(birthday);
+    patient.responsible = responsible;
 
     await patient.save();
 

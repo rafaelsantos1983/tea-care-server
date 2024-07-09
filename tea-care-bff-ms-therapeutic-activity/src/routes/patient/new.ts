@@ -6,6 +6,7 @@ import {
   mongoWrapper,
   PatientSchema,
   PatientDoc,
+  UserSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 
 import {
@@ -18,7 +19,7 @@ const router = express.Router();
 /**
  * Registro de Paciente
  */
-router.post(
+router.put(
   '/api/therapeutic-activity/patients',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -26,6 +27,7 @@ router.post(
       const name = sanitizeHtml(req.body.name) as string;
       const cpf = sanitizeHtml(req.body.cpf) as string;
       const birthday = sanitizeHtml(req.body.birthday) as string;
+      const responsibleId = sanitizeHtml(req.body.responsibleId) as string;
 
       const tenant: string = getTenantByOrigin(req);
 
@@ -35,10 +37,20 @@ router.post(
         PatientSchema
       );
 
+      const User = await mongoWrapper.getModel<UserDoc>(
+        tenant,
+        'User',
+        UserSchema
+      );
+
       // consulta se já existe
       const hasPatient = await Patient.findOne({
         cpf: cpf,
       });
+
+      const responsible = await User.findOne({
+        _id: responsibleId,
+      })
 
       if (hasPatient) {
         throw new BadRequestError('Paciente já existe.');
@@ -48,6 +60,7 @@ router.post(
         name: name,
         cpf: cpf,
         birthday: birthday,
+        responsible: responsible
       });
 
       await user.save();

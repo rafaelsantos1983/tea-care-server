@@ -19,7 +19,7 @@ router.get(
     try {
       const tenant: string = getTenantByOrigin(req);
 
-      const Patient = await mongoWrapper.getModel<PatientDoc>(
+      const Patient = mongoWrapper.getModel<PatientDoc>(
         tenant,
         'Patient',
         PatientSchema
