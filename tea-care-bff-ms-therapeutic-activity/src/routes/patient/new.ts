@@ -19,7 +19,7 @@ const router = express.Router();
 /**
  * Registro de Paciente
  */
-router.post(
+router.put(
   '/api/therapeutic-activity/patients',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
