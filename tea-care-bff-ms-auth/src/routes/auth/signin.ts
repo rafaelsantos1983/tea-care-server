@@ -60,6 +60,8 @@ router.post(
           user: {
             id: hasUser._id,
             name: hasUser.name,
+            occupation: hasUser.occupation,
+            type: hasUser.type,
           },
         },
         process.env.JWT_SECRET,
