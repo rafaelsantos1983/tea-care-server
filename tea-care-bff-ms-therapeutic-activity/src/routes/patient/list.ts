@@ -25,7 +25,7 @@ router.get(
         PatientSchema
       );
 
-      const patients = await Patient.find({}).populate('responsible');
+      const patients = await Patient.find({});
 
       res.send(patients);
     } catch (error) {
