@@ -25,10 +25,6 @@ function userValidations() {
       .exists()
       .withMessage((value, { req, location, path }) => {
         return getMessage(req, 'user.cpf.requiredField');
-      })
-      .isLength({ max: 11 })
-      .withMessage((value, { req, location, path }) => {
-        return getMessage(req, 'user.cpf.maxLength');
       }),
     body('phone')
       .exists()
