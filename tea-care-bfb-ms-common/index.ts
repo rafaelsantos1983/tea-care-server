@@ -5,8 +5,13 @@ export * from './src/errors/database-connection-error';
 export * from './src/errors/not-found-error';
 export * from './src/errors/request-validation-error';
 
+export * from './src/models/dashboard-internal';
+export * from './src/models/dashboard-external';
+export * from './src/models/care/answer-weight';
+export * from './src/models/care/qualification-type';
+export * from './src/models/care/care';
 export * from './src/models/config/user';
-export * from './src/models/patient';
+export * from './src/models/care/patient';
 export * from './src/models/config/functionality';
 export * from './src/models/config/profile';
 

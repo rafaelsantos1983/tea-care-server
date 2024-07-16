@@ -8,6 +8,8 @@ import {
   PatientDoc,
   UserSchema,
   UserDoc,
+  CareDoc,
+  CareSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 
 import {
@@ -18,19 +20,23 @@ import {
 const router = express.Router();
 
 /**
- * Registro de Paciente
+ * Registro de Atendimento Ausente
  */
 router.put(
-  '/api/therapeutic-activity/patients',
+  '/api/therapeutic-activity/cares/absent',
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const name = sanitizeHtml(req.body.name) as string;
-      const cpf = sanitizeHtml(req.body.cpf) as string;
-      const birthday = sanitizeHtml(req.body.birthday) as string;
-      const responsibleId = sanitizeHtml(req.body.responsibleId) as string;
+      const patientId = sanitizeHtml(req.body.patientId) as string;
+      const professionalId = sanitizeHtml(req.body.professionalId) as string;
 
       const tenant: string = getTenantByOrigin(req);
+
+      const Care = await mongoWrapper.getModel<CareDoc>(
+        tenant,
+        'Care',
+        CareSchema
+      );
 
       const Patient = await mongoWrapper.getModel<PatientDoc>(
         tenant,
@@ -44,33 +50,31 @@ router.put(
         UserSchema
       );
 
-      // consulta se já existe
-      const hasPatient = await Patient.findOne({
-        cpf: cpf,
+      //paciente
+      const patient = await Patient.findOne({
+        _id: patientId,
       });
 
-      const responsible = await User.findOne({
-        _id: responsibleId,
+      //profissional
+      const professional = await Patient.findOne({
+        _id: professionalId,
       });
 
-      if (hasPatient) {
-        throw new BadRequestError('Paciente já existe.');
-      }
-
-      const user = new Patient({
-        name: name,
-        cpf: cpf,
-        birthday: birthday,
-        responsible: responsible,
+      const care = new Care({
+        professional: professional,
+        patient: patient,
+        initialDate: new Date(),
+        finalDate: new Date(),
+        absent: true,
       });
 
-      await user.save();
+      await care.save();
 
-      res.status(201).json('Paciente registrado.');
+      res.status(201).json('Atendimento registrado.');
     } catch (error) {
       next(error);
     }
   }
 );
 
-export { router as newPatientRouter };
+export { router as absentRouter };

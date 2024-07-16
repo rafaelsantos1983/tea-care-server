@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { UserType as UserType } from './user-type';
-import { OccupationType } from '../occupation-type';
+import { OccupationType } from '../care/occupation-type';
+import { ProfileDoc } from './profile';
 
 interface UserAttrs {
   name: string;
@@ -11,7 +12,7 @@ interface UserAttrs {
   phone: string;
   type: UserType;
   occupation: OccupationType;
-  propfiles: [];
+  profiles: [ProfileDoc];
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -27,13 +28,7 @@ export interface UserDoc extends mongoose.Document {
   phone: string;
   type: UserType;
   occupation: OccupationType;
-  propfiles: [
-    {
-      id: string;
-      name: string;
-      symbol: string;
-    },
-  ];
+  profiles: [ProfileDoc];
 }
 
 const UserSchema = new mongoose.Schema(

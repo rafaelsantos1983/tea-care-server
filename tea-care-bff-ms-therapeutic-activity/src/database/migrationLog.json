@@ -1,4 +1,3 @@
 {
-  "migrations": [
-  ]
+  "migrations": ["20240716_add-answer-weight.ts"]
 }

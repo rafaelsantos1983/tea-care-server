@@ -21,7 +21,11 @@ import { listPatientRouter } from './routes/patient/list';
 import { deletePatientRouter } from './routes/patient/delete';
 import { findPatientRouter } from './routes/patient/find';
 import { updatePatientRouter } from './routes/patient/update';
-import { signupRouter } from './routes/patient/new';
+import { newPatientRouter } from './routes/patient/new';
+import { updateCareRouter } from './routes/care/update';
+import { newCareRouter } from './routes/care/new';
+import { listCareRouter } from './routes/care/list';
+import { absentRouter } from './routes/care/absent';
 
 const app = express();
 app.set('trust proxy', true);
@@ -68,7 +72,12 @@ app.use(deletePatientRouter);
 app.use(findPatientRouter);
 app.use(updatePatientRouter);
 app.use(deletePatientRouter);
-app.use(signupRouter);
+app.use(newPatientRouter);
+
+app.use(updateCareRouter);
+app.use(newCareRouter);
+app.use(listCareRouter);
+app.use(absentRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);

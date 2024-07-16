@@ -111,19 +111,6 @@ export function sleep(milliseconds: number) {
   });
 }
 
-export function getUserTenant(req: any): string {
-  return (req as any).headers?.constituent;
-}
-
-/**
- * Pega o auth do usuário na requisição
- * @param req
- * @returns
- */
-export function getUserAuth(req: Request): string {
-  return (req as any).user?.auth;
-}
-
 /**
  * Pega o language do usuário na requisição
  * @param req
@@ -131,6 +118,15 @@ export function getUserAuth(req: Request): string {
  */
 export function getUserLanguage(req: Request): string {
   return (req as any).user?.language;
+}
+
+/**
+ * Pega o tipo do usuário na requisição
+ * @param req
+ * @returns
+ */
+export function getUserType(req: Request): string {
+  return (req as any).user?.type;
 }
 
 /**
@@ -148,7 +144,7 @@ export function getOrigin(req: any): string {
  * @returns
  */
 export function getTenantByOrigin(req: any): string {
-  const origin = req.get('origin');
+  const origin = getOrigin(req);
   logger.debug(`Origem recebida: ${origin}`); // Adicione este log para verificar a origem
 
   let tenant = TenantType.PRAXIS;
