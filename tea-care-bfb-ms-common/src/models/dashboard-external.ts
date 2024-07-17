@@ -1,9 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 import { QualificationType } from './care/qualification-type';
+import { PatientDoc } from './care/patient';
 
 interface DashboardExternalAttrs {
-  patient: any;
+  patient: PatientDoc;
   rating: [qualtificationType: QualificationType, value: Number];
 }
 
@@ -13,7 +14,7 @@ interface DashboardExternalModel extends mongoose.Model<DashboardExternalDoc> {
 
 export interface DashboardExternalDoc extends mongoose.Document {
   _id: string;
-  patient: any;
+  patient: PatientDoc;
   rating: [qualtificationType: QualificationType, value: Number];
 }
 

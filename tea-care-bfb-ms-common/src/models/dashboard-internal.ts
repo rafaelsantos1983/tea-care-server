@@ -1,17 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
 import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
-import { Survey } from './care/survey';
 import { QualificationType } from './care/qualification-type';
+import { PatientDoc } from './care/patient';
 
 interface DashboardInternalAttrs {
-  name: string;
-  description: string;
-  professional: any;
-  initialDate: Date;
-  finalDate: Date;
-  tramit: boolean;
-  absent: boolean;
-  survey: Survey;
+  patient: PatientDoc;
+  rating: [
+    qualificationType: QualificationType,
+    periods: [year: Number, months: [month: Number, value: Number]],
+  ];
 }
 
 interface DashboardInternalModel extends mongoose.Model<DashboardInternalDoc> {
@@ -20,13 +17,10 @@ interface DashboardInternalModel extends mongoose.Model<DashboardInternalDoc> {
 
 export interface DashboardInternalDoc extends mongoose.Document {
   _id: string;
-  patient: any;
+  patient: PatientDoc;
   rating: [
-    year: number,
-    qualitications: [
-      qualtificationType: QualificationType,
-      months: [month: number, value: number],
-    ],
+    qualificationType: QualificationType,
+    periods: [year: Number, months: [month: Number, value: Number]],
   ];
 }
 
@@ -39,18 +33,18 @@ const DashboardInternalSchema = new mongoose.Schema(
     },
     rating: [
       {
-        year: {
-          type: Number,
+        qualificationType: {
+          type: String,
+          enum: Object.values(QualificationType),
           required: false,
-          description: 'Ano',
+          description: 'Tipo da habilidade',
         },
-        qualitications: [
+        periods: [
           {
-            qualificationType: {
-              type: String,
-              enum: Object.values(QualificationType),
+            year: {
+              type: Number,
               required: false,
-              description: 'Tipo da habilidade',
+              description: 'Ano',
             },
             months: [
               {
