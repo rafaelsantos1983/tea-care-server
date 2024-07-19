@@ -23,6 +23,11 @@ import { deleteUserRouter } from './routes/user/delete';
 import { updateUserRouter } from './routes/user/update';
 import { findUserRouter } from './routes/user/find';
 import { listUserRouter } from './routes/user/list';
+import { deleteProfileRouter } from './routes/profile/delete';
+import { findFunctionRouter } from './routes/profile/find';
+import { newProfileRouter } from './routes/profile/new';
+import { updateProfileRouter } from './routes/profile/update';
+import { listProfileRouter } from './routes/profile/list';
 import { usersRouter } from './routes/user/users';
 import { profilesRouter } from './routes/profile/profiles';
 
@@ -70,6 +75,12 @@ app.use(deleteUserRouter);
 app.use(updateUserRouter);
 app.use(findUserRouter);
 app.use(listUserRouter);
+
+app.use(listProfileRouter);
+app.use(newProfileRouter);
+app.use(deleteProfileRouter);
+app.use(findFunctionRouter);
+app.use(updateProfileRouter);
 
 app.use(usersRouter);
 app.use(profilesRouter);
