@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import {
+  CareDoc,
+  CareSchema,
   getTenantByOrigin,
   mongoWrapper,
   validateRequest,
-  CareDoc,
-  CareSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -21,7 +21,9 @@ router.get(
 
       const Care = mongoWrapper.getModel<CareDoc>(tenant, 'Care', CareSchema);
 
-      const cares = await Care.find({});
+      const cares = await Care.find({}).populate({
+        path: 'patient',
+      });
 
       res.send(cares);
     } catch (error) {

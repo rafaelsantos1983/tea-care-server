@@ -9,6 +9,7 @@ export * from './src/models/dashboard-internal';
 export * from './src/models/dashboard-external';
 export * from './src/models/care/answer-weight';
 export * from './src/models/care/qualification-type';
+export * from './src/models/care/care-answer';
 export * from './src/models/care/care';
 export * from './src/models/config/user';
 export * from './src/models/care/patient';

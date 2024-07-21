@@ -22,7 +22,7 @@ interface CareModel extends mongoose.Model<CareDoc> {
 export interface CareDoc extends mongoose.Document {
   _id: string;
   description: string;
-  professional: UserDoc;
+  professional: any;
   patient: any;
   initialDate: Date;
   finalDate: Date;
@@ -35,7 +35,7 @@ const CareSchema = new mongoose.Schema(
   {
     description: {
       type: String,
-      required: true,
+      required: false,
       description: 'Descrição',
     },
     professional: {

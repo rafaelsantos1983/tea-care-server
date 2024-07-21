@@ -57,7 +57,7 @@ router.put(
       });
 
       //profissional
-      const professional = await Patient.findOne({
+      const professional = await User.findOne({
         _id: professionalId,
       });
 

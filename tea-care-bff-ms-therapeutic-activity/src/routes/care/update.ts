@@ -13,6 +13,8 @@ import {
   DashboardExternalDoc,
   DashboardInternalSchema,
   DashboardInternalDoc,
+  CareAnswerDoc,
+  CareAnswerSchema,
 } from '@teacare/tea-care-bfb-ms-common';
 import { OccupationType } from '@teacare/tea-care-bfb-ms-common/src/models/care/occupation-type';
 import { Survey } from '@teacare/tea-care-bfb-ms-common/src/models/care/survey';
@@ -56,10 +58,19 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
       throw new NotFoundError();
     }
 
+    //Registrar Respostas Calculads
+    const CareAnswer = await mongoWrapper.getModel<CareAnswerDoc>(
+      tenant,
+      'CareAnswer',
+      CareAnswerSchema
+    );
+
     //Profissão
     let professionalOccupation = care.professional.occupation;
 
-    let rating: any[] = [];
+    // let rating: any[] = [];
+
+    const today = new Date();
 
     //Calculo do Dashboard Externo
     surver.forEach(async function (item: any) {
@@ -89,10 +100,21 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
         answersSum = answersSum + answer * gradeWeight;
       });
 
-      rating.push({
-        qualtificationType: qualificationType,
-        value: answersSum / answers.length,
+      // rating.push({
+      //   qualtificationType: qualificationType,
+      //   value: answersSum / answers.length,
+      // });
+
+      //registra um resposta, com os cálculos dos pesos
+      const careAnswer = new CareAnswer({
+        patient: care.patient,
+        qualificationType: qualificationType,
+        year: today.getFullYear(),
+        month: today.getMonth(),
+        value: answersSum,
       });
+
+      await careAnswer.save();
     });
 
     const DashboardExternal = await mongoWrapper.getModel<DashboardExternalDoc>(
@@ -101,26 +123,32 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
       DashboardExternalSchema
     );
 
-    const dashboardExternal = new DashboardExternal({
-      patient: care.patient,
-      rating: rating,
-    });
+    //Limpar os dados para o Dashboard Externo
+    await DashboardExternal.deleteMany({
+      'patient._id': care.patient,
+    }).exec();
 
-    await dashboardExternal.save();
+    //Adicionar dados do dashboard externo
+    // const dashboardExternal = new DashboardExternal({
+    //   patient: care.patient,
+    //   rating: rating,
+    // });
+
+    // await dashboardExternal.save();
 
     //Calculo Dashboard Interno
-    const DashboardInternal = await mongoWrapper.getModel<DashboardInternalDoc>(
-      tenant,
-      'DashboardInternal',
-      DashboardInternalSchema
-    );
+    // const DashboardInternal = await mongoWrapper.getModel<DashboardInternalDoc>(
+    //   tenant,
+    //   'DashboardInternal',
+    //   DashboardInternalSchema
+    // );
 
-    const dashboardInternal = new DashboardInternal({
-      patient: care.patient,
-      rating: rating,
-    });
+    // const dashboardInternal = new DashboardInternal({
+    //   patient: care.patient,
+    //   rating: rating,
+    // });
 
-    await dashboardInternal.save();
+    // await dashboardInternal.save();
 
     //Atendimento
     care.finalDate = new Date();

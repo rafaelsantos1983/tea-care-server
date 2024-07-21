@@ -44,6 +44,7 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       required: true,
       unique: true,
+      trim: true,
       match: [/\S+@\S+\.\S+/, 'está inválido.'],
       description: 'E-mail',
       index: true,
@@ -52,6 +53,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
       description: 'Senha',
+      select: false,
     },
     cpf: {
       type: String,
