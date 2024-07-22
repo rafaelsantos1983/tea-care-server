@@ -66,17 +66,13 @@ const start = async () => {
   const httpsServer = https.createServer(credentials, app);
   const tlsPort = process.env.TLS_PORT || 443;
   httpsServer.listen(tlsPort, () => {
-    logger.info(
-      `[ms-report:index] Analysis Configurator running on port ${tlsPort}`
-    );
+    logger.info(`[ms-report:index] Dashboard running on port ${tlsPort}`);
   });
 
   const httpServer = http.createServer(app);
   const port = process.env.PORT || 3000;
   httpServer.listen(port, () => {
-    logger.info(
-      `[ms-report:index] Analysis Configurator running on port ${port}`
-    );
+    logger.info(`[ms-report:index] Dashboard running on port ${port}`);
   });
 
   app.locals.readiness = true;

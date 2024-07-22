@@ -5,7 +5,7 @@ import { PatientDoc } from './care/patient';
 
 interface DashboardExternalAttrs {
   patient: PatientDoc;
-  rating: [qualtificationType: QualificationType, value: Number];
+  rating: [qualificationType: QualificationType, value: Number];
 }
 
 interface DashboardExternalModel extends mongoose.Model<DashboardExternalDoc> {
@@ -15,7 +15,7 @@ interface DashboardExternalModel extends mongoose.Model<DashboardExternalDoc> {
 export interface DashboardExternalDoc extends mongoose.Document {
   _id: string;
   patient: PatientDoc;
-  rating: [qualtificationType: QualificationType, value: Number];
+  rating: [qualificationType: QualificationType, value: Number];
 }
 
 const DashboardExternalSchema = new mongoose.Schema(

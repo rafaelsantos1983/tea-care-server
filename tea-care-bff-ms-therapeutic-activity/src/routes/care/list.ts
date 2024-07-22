@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import {
   CareDoc,
   CareSchema,
+  PatientDoc,
+  PatientSchema,
   getTenantByOrigin,
   mongoWrapper,
   validateRequest,
@@ -18,6 +20,12 @@ router.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const tenant: string = getTenantByOrigin(req);
+
+      const Patient = mongoWrapper.getModel<PatientDoc>(
+        tenant,
+        'Patient',
+        PatientSchema
+      );
 
       const Care = mongoWrapper.getModel<CareDoc>(tenant, 'Care', CareSchema);
 

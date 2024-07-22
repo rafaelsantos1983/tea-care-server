@@ -17,6 +17,8 @@ import { healthcheckRoutes } from './app.constants';
 import { livenessRouter } from './routes/liveness';
 import { readinessRouter } from './routes/readiness';
 import { i18n } from './util/i18n';
+import { findDashboardExternalRouter } from './routes/external/find';
+import { findDashboardInternalRouter } from './routes/internal/find';
 
 const app = express();
 app.set('trust proxy', true);
@@ -57,6 +59,8 @@ app.use(livenessRouter);
 app.use(readinessRouter);
 
 // Endpoints de Negócio
+app.use(findDashboardExternalRouter);
+app.use(findDashboardInternalRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError(req.path);

@@ -77,7 +77,7 @@ const start = async () => {
   const tlsPort = process.env.TLS_PORT || 443;
   httpsServer.listen(tlsPort, () => {
     logger.info(
-      `[ms-therapeutic-activity:index] Analysis Configurator running on port ${tlsPort}`
+      `[ms-therapeutic-activity:index] Therapeutic Activity running on port ${tlsPort}`
     );
   });
 
@@ -85,7 +85,7 @@ const start = async () => {
   const port = process.env.PORT || 3000;
   httpServer.listen(port, () => {
     logger.info(
-      `[ms-therapeutic-activity:index] Analysis Configurator running on port ${port}`
+      `[ms-therapeutic-activity:index] Therapeutic Activity running on port ${port}`
     );
   });
 

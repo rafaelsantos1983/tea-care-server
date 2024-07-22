@@ -33,7 +33,7 @@ router.get(
         );
 
       let dashboardExternal = await DashboardExternal.findOne({
-        'patient._id': patientId,
+        patient: patientId,
       });
 
       res.status(200).json(dashboardExternal);
@@ -43,4 +43,4 @@ router.get(
   }
 );
 
-export { router as findPatientRouter };
+export { router as findDashboardExternalRouter };

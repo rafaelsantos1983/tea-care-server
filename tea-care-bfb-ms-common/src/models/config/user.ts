@@ -53,7 +53,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: false,
       description: 'Senha',
-      select: false,
     },
     cpf: {
       type: String,

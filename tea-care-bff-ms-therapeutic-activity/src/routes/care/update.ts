@@ -15,6 +15,10 @@ import {
   DashboardInternalDoc,
   CareAnswerDoc,
   CareAnswerSchema,
+  UserSchema,
+  UserDoc,
+  truncCurrency,
+  logger,
 } from '@teacare/tea-care-bfb-ms-common';
 import { OccupationType } from '@teacare/tea-care-bfb-ms-common/src/models/care/occupation-type';
 import { Survey } from '@teacare/tea-care-bfb-ms-common/src/models/care/survey';
@@ -66,56 +70,13 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
     );
 
     //Profissão
-    let professionalOccupation = care.professional.occupation;
+    const User = await mongoWrapper.getModel<UserDoc>(
+      tenant,
+      'User',
+      UserSchema
+    );
 
-    // let rating: any[] = [];
-
-    const today = new Date();
-
-    //Calculo do Dashboard Externo
-    surver.forEach(async function (item: any) {
-      let qualificationType = item.qualificationType as QualificationType;
-      let answers = item.answers as Array<string>;
-
-      const answerWeight = await AnswerWeight.aggregate([
-        { $unwind: { path: '$weights' } },
-        {
-          $match: {
-            qualificationType: qualificationType,
-            'weights.occupation': professionalOccupation,
-          },
-        },
-        {
-          $project: {
-            _id: 0,
-            'weights.value': 1,
-          },
-        },
-      ]);
-
-      let answersSum = 0;
-      let gradeWeight = answerWeight[0].value;
-
-      answers.forEach(function (answer: any) {
-        answersSum = answersSum + answer * gradeWeight;
-      });
-
-      // rating.push({
-      //   qualtificationType: qualificationType,
-      //   value: answersSum / answers.length,
-      // });
-
-      //registra um resposta, com os cálculos dos pesos
-      const careAnswer = new CareAnswer({
-        patient: care.patient,
-        qualificationType: qualificationType,
-        year: today.getFullYear(),
-        month: today.getMonth(),
-        value: answersSum,
-      });
-
-      await careAnswer.save();
-    });
+    let professional: any = await User.findOne({ _id: care.professional });
 
     const DashboardExternal = await mongoWrapper.getModel<DashboardExternalDoc>(
       tenant,
@@ -125,30 +86,160 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
 
     //Limpar os dados para o Dashboard Externo
     await DashboardExternal.deleteMany({
-      'patient._id': care.patient,
+      patient: care.patient,
     }).exec();
 
-    //Adicionar dados do dashboard externo
-    // const dashboardExternal = new DashboardExternal({
-    //   patient: care.patient,
-    //   rating: rating,
-    // });
+    const DashboardInternal = await mongoWrapper.getModel<DashboardInternalDoc>(
+      tenant,
+      'DashboardInternal',
+      DashboardInternalSchema
+    );
 
-    // await dashboardExternal.save();
+    //Limpar os dados para o Dashboard Interno
+    await DashboardInternal.deleteMany({
+      patient: care.patient,
+    }).exec();
+
+    const today = new Date();
+
+    //Calculo do Dashboard Externo
+    await surver.forEach(async function (item: any) {
+      let qualificationType = item.qualificationType as QualificationType;
+      let answers = item.answers as Array<string>;
+
+      const answerWeight = await AnswerWeight.aggregate([
+        { $unwind: { path: '$weights' } },
+        {
+          $match: {
+            qualificationType: qualificationType,
+            'weights.occupation': professional.occupation,
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            'weights.value': 1,
+          },
+        },
+      ]).exec();
+
+      let answersSum = 0;
+      let gradeWeight = answerWeight[0].weights.value;
+
+      await answers.forEach(function (answer: any) {
+        answersSum = answersSum + answer * gradeWeight;
+      });
+
+      //registra um resposta, com os cálculos dos pesos
+      const careAnswer = new CareAnswer({
+        patient: care.patient,
+        qualificationType: qualificationType,
+        year: today.getFullYear(),
+        month: today.getMonth(),
+        value: Number(truncCurrency(answersSum)),
+      });
+
+      await careAnswer.save();
+    });
+
+    //Calcular dados do Dashboard Externo
+    const dashboardExternalDatas = await CareAnswer.aggregate([
+      {
+        $match: {
+          patient: care.patient._id,
+        },
+      },
+      {
+        $group: {
+          _id: '$qualificationType',
+          pop: { $avg: '$value' },
+        },
+      },
+      {
+        $addFields: {
+          pop: {
+            $toDouble: { $substrBytes: ['$pop', 0, 4] },
+          },
+        },
+      },
+    ]).exec();
+
+    logger.debug(`Media ${dashboardExternalDatas}`);
+
+    let ratingExternal: any[] = [];
+
+    await dashboardExternalDatas.forEach(async function (item: any) {
+      ratingExternal.push({
+        qualificationType: item._id,
+        value: item.pop,
+      });
+    });
+
+    //Adicionar dados do dashboard externo
+    const dashboardExternal = new DashboardExternal({
+      patient: care.patient,
+      rating: ratingExternal,
+    });
+
+    await dashboardExternal.save();
+
+    let ratingInternal: any[] = [];
+
+    //Calcular dados do Dashboard Interno
+    const dashboardInternalDatas = await CareAnswer.aggregate([
+      {
+        $match: {
+          patient: care.patient._id,
+        },
+      },
+      {
+        $group: {
+          _id: {
+            qualificationType: '$qualificationType',
+            year: '$year',
+            month: '$month',
+          },
+          pop: { $avg: '$value' },
+        },
+      },
+      {
+        $addFields: {
+          pop: {
+            $toDouble: { $substrBytes: ['$pop', 0, 4] },
+          },
+        },
+      },
+    ]).exec();
+
+    logger.debug(`Media ${dashboardInternalDatas}`);
 
     //Calculo Dashboard Interno
-    // const DashboardInternal = await mongoWrapper.getModel<DashboardInternalDoc>(
-    //   tenant,
-    //   'DashboardInternal',
-    //   DashboardInternalSchema
-    // );
+    await dashboardInternalDatas.forEach(async function (item: any) {
+      let months: any[] = [];
+      months.push({
+        month: item._id.month,
+        value: item.pop,
+      });
 
-    // const dashboardInternal = new DashboardInternal({
-    //   patient: care.patient,
-    //   rating: rating,
-    // });
+      let periods: any[] = [];
 
-    // await dashboardInternal.save();
+      periods.push({
+        year: item._id.year,
+        months: months,
+      });
+
+      ratingInternal.push({
+        qualificationType: item._id.qualificationType,
+        periods: periods,
+      });
+    });
+
+    const dashboardInternal = new DashboardInternal({
+      patient: care.patient,
+      rating: ratingInternal,
+    });
+
+    await dashboardInternal.save();
 
     //Atendimento
     care.finalDate = new Date();

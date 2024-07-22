@@ -65,7 +65,7 @@ router.put(
         professional: professional,
         patient: patient,
         initialDate: new Date(),
-        absent: true,
+        absent: false,
         tramit: true,
       });
 

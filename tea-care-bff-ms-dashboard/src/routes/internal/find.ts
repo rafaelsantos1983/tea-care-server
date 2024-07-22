@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import express, { Request, Response, NextFunction } from 'express';
 
 import {
@@ -10,6 +11,9 @@ import {
   PatientSchema,
   DashboardInternalDoc,
   DashboardInternalSchema,
+  CareAnswerDoc,
+  CareAnswerSchema,
+  logger,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -33,7 +37,7 @@ router.get(
         );
 
       let dashboardInternal = await DashboardInternal.findOne({
-        'patient._id': patientId,
+        patient: patientId,
       });
 
       res.status(200).json(dashboardInternal);
@@ -43,4 +47,4 @@ router.get(
   }
 );
 
-export { router as findPatientRouter };
+export { router as findDashboardInternalRouter };

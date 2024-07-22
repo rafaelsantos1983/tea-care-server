@@ -22,3 +22,11 @@ export function getMessage(req: any, key: string) {
 export function getUserLanguage(req: Request): string {
   return (req as any).user?.language;
 }
+
+/**
+ * Trunca o valor em duas cadas decimais
+ * @param value
+ */
+export function truncCurrency(value: Number) {
+  return value.toFixed(2);
+}
