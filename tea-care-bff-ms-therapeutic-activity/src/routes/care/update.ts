@@ -40,7 +40,7 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
   try {
     const careId = sanitizeString(req.params.careId) as string;
     const tenant: string = getTenantByOrigin(req);
-    const surver = req.body.surver;
+    const survey = req.body.survey;
 
     const Care = await mongoWrapper.getModel<CareDoc>(
       tenant,
@@ -103,7 +103,7 @@ async function updateCare(req: Request, res: Response, next: NextFunction) {
     const today = new Date();
 
     //Calculo do Dashboard Externo
-    await surver.forEach(async function (item: any) {
+    await survey.forEach(async function (item: any) {
       let qualificationType = item.qualificationType as QualificationType;
       let answers = item.answers as Array<string>;
 
