@@ -26,25 +26,15 @@ router.get(
       const tenant: string = getTenantByOrigin(req);
       const patientId = sanitizeString(req.params.patientId) as string;
 
-      const Patient = mongoWrapper.getModel<PatientDoc>(
-        tenant,
-        'Patient',
-        PatientSchema
-      );
-
       const User = mongoWrapper.getModel<UserDoc>(tenant, 'User', UserSchema);
 
       const Care = mongoWrapper.getModel<CareDoc>(tenant, 'Care', CareSchema);
 
       const cares = await Care.find({
         patient: new ObjectId(patientId),
-      })
-        .populate({
-          path: 'patient',
-        })
-        .populate({
-          path: 'professional',
-        });
+      }).populate({
+        path: 'professional',
+      });
 
       res.send(cares);
     } catch (error) {

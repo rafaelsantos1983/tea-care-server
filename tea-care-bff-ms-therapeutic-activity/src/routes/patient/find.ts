@@ -39,8 +39,8 @@ router.get(
 
       let patient = await Patient.findOne({
         _id: patientId,
-      }).populate({
-        path: 'responsible',
+        // }).populate({
+        //   path: 'responsible',
       });
       if (!patient) {
         throw new NotFoundError();
