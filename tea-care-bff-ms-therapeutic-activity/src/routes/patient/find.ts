@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import express, { Request, Response, NextFunction } from 'express';
 
 import {
@@ -38,7 +39,7 @@ router.get(
       );
 
       let patient = await Patient.findOne({
-        _id: patientId,
+        _id: new ObjectId(patientId),
         // }).populate({
         //   path: 'responsible',
       });
