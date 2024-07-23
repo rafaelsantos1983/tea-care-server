@@ -8,6 +8,8 @@ import {
   validateRequest,
   PatientDoc,
   PatientSchema,
+  UserSchema,
+  UserDoc,
 } from '@teacare/tea-care-bfb-ms-common';
 
 const router = express.Router();
@@ -22,6 +24,13 @@ router.get(
     try {
       const patientId = sanitizeString(req.params.patientId) as string;
       const tenant: string = getTenantByOrigin(req);
+
+      const User = await mongoWrapper.getModel<UserDoc>(
+        tenant,
+        'Patient',
+        UserSchema
+      );
+
       const Patient = await mongoWrapper.getModel<PatientDoc>(
         tenant,
         'Patient',
@@ -30,6 +39,8 @@ router.get(
 
       let patient = await Patient.findOne({
         _id: patientId,
+      }).populate({
+        path: 'responsible',
       });
       if (!patient) {
         throw new NotFoundError();
